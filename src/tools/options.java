@@ -57,7 +57,7 @@ public class options{
 
 	@Override
 	public String toString() {
-		return "options [prefrence=" + prefrence + ", startingOffer=" + startingOffer + ", resultOffer=" + resultOffer+"\n";
+		return "options [prefrence=" + prefrence + ", startingOffer=" + startingOffer + ", resultOffer=" + resultOffer+"\n"+getPaths();
 	}
 	
 	public String getPaths(){
@@ -78,6 +78,11 @@ public class options{
 		}
 		return l;
 		
+	}
+
+	public int longestPathsTurnNumebr() {
+		String str=longestPaths();
+		return str.split(":").length;
 	}
 	
 	

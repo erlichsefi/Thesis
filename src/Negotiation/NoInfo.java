@@ -47,9 +47,6 @@ public class NoInfo extends Algo{
 	}
 	
 
-	public static int[] getStatistic(){
-		return stat;
-	}
 	
 
 	public static outcome NoInfoOutCome(Agent startingagent,Agent otheragnet){
@@ -80,7 +77,16 @@ public class NoInfo extends Algo{
 		return waitingAgentValueToOffer;
 	}
 
+	public static void printStatistic() {
+		for (int i = 0; i < _out.length; i++) {
+			System.out.print(_out[i]+" ");
+		}
+		System.out.println();
+		for (int i = 0; i < stat.length; i++) {
+			System.out.print(stat[i]+"  ");
+		}
 
+	}
 	
 	
 }

@@ -1,14 +1,13 @@
 package Negotiation;
 import java.util.ArrayList;
 
-	
+
 import tools.Agent;
 import tools.options;
 import tools.outcome;
 
 public class AsimetricInfo extends Algo{
 	static int[] stat;
-	static String[] _out;
 
 
 	/**
@@ -19,11 +18,11 @@ public class AsimetricInfo extends Algo{
 	 * @param offerAgentWhat
 	 * @return
 	 */
-	public static ArrayList<options> AsimetricInfoGame(String[] out,Agent KnowenAgnet,boolean IsOtherAgnetStarting){
+	public static ArrayList<options> AsimetricInfoGameStatistic(String[] out,Agent KnowenAgnet,boolean IsOtherAgnetStarting){
 		_out=out;
 		stat=new int[out.length];
 
-		
+
 		ArrayList<options> op=new ArrayList<options>();
 		ArrayList<String> client1prefernce=AllPossiblePrefrence(out);
 		outcome o=null;
@@ -56,7 +55,7 @@ public class AsimetricInfo extends Algo{
 	 * @param offerAgentWhat
 	 * @return 
 	 */
-	public static outcome FindOrderOfOffersWhenKnownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
+	private static outcome FindOrderOfOffersWhenKnownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
 		//get all moves
 		String[] moves=KnowenAgnet.getOutComeOptions();
 		outcome[] possibleOutForKnow=new outcome[moves.length];
@@ -136,8 +135,8 @@ public class AsimetricInfo extends Algo{
 	 * @param op
 	 * @param offerAgentWhat
 	 */
-	public static outcome FindOrderOfOffersWhenUnknownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
-		
+	private static outcome FindOrderOfOffersWhenUnknownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
+
 		//take the other agent best offer
 		outcome OtherAgnetNextOnTheTable=otheragnet.RemoveBestOutcome();
 		//look at my value for it
@@ -153,48 +152,115 @@ public class AsimetricInfo extends Algo{
 		else{
 			return myvalueforoffer;
 		}
-//		outcome KnowenAgentValueForOffer=KnowenAgnet.RemoveOutcome(OtherAgnetNextOnTheTable.getName());
-//		outcome KnowenAgentNextOnTheTable=KnowenAgnet.CopyBestOutcome();
-//
-//		String presentMove=PastMove+"- no other option";
-//
-//		//full info agent as noting to 
-//		if (KnowenAgentNextOnTheTable==null){
-//			KnowenAgentValueForOffer.firstPath(presentMove);
-//			return new outcome(KnowenAgentValueForOffer);
-//		}
-//
-//
-//		String[] moves=KnowenAgnet.getOutComeOptions();
-//		for (int k = 0; k < moves.length; k++) {
-//			Agent KnowenAgnetCopy=new Agent(KnowenAgnet);
-//			Agent otheragnetCopy=new Agent(otheragnet);
-//			String presentMove2=presentMove+moves[k]+"->";
-//
-//			KnowenAgnetCopy.RemoveOutcome(moves[k]);
-//			outcome OtherAgnetOffer=otheragnetCopy.RemoveOutcome(moves[k]);
-//			OtherAgnetNextOnTheTable=otheragnetCopy.CopyBestOutcome();
-//
-//
-//			//check if the other agent preferred, if gotten to a deal and the deal is not fit , go back
-//			if ( OtherAgnetNextOnTheTable==null){
-//				OtherAgnetOffer.firstPath(presentMove2);
-//				return KnowenAgentValueForOffer=new outcome(OtherAgnetOffer);
-//
-//			}
-//			else if ( OtherAgnetOffer.getValue()>KnowenAgentValueForOffer.getValue()){
-//				OtherAgnetOffer.firstPath(presentMove2);
-//			}
-//			else{
-//				FindOrderOfOffersWhenUnknownStarting(KnowenAgnetCopy,otheragnetCopy,presentMove2);
-//			}
-//
-//
-//
-//		}
+	}
+	
+	public static outcome AsimetricInfoGame(Agent KnowenAgnet,Agent otheragnet,boolean KnowStarting){
+		if (KnowStarting){
+			return FindOrderOfOffersWhenKnownStarting(KnowenAgnet,otheragnet,"");
+		}
+		else{
+			return FindOrderOfOffersWhenUnknownStarting(KnowenAgnet,otheragnet,"");
 
+		}
 	}
 
+	public static outcome AsimetricInfoGameTeza(Agent KnowenAgnet,Agent otheragnet,boolean KnowStarting){
+		if (KnowStarting){
+			return FindOrderOfOffersWhenKnownStartingTeza(KnowenAgnet,otheragnet,"");
+		}
+		else{
+			return FindOrderOfOffersWhenUnknownStartingTeza(KnowenAgnet,otheragnet,"");
+
+		}
+	}
+	
+	
+	private static outcome  FindOrderOfOffersWhenKnownStartingTeza(Agent KnowenAgnet,Agent otheragnet,String PastMove){
+		String offer=KnowenAgnet.CopyBestOutcome().getName();
+		//if even number and the first outcome is the the worst for the other
+		//try to get the second best
+		if (KnowenAgnet.getOutComeOptions().length%2==0){
+			if (otheragnet.CopyWorstOutcome().getName().equals(offer)){
+				Agent KnowenAgnetC=new Agent(KnowenAgnet);
+				KnowenAgnetC.RemoveBestOutcome();
+				offer=KnowenAgnetC.RemoveBestOutcome().getName();
+			}
+		}
+		
+		ArrayList<outcome> better=otheragnet.OutComesBeterThen(offer);
+		better.sort(null);
+		String Currentoffer=null;
+		while (better.size()>1){
+			Currentoffer=better.remove(better.size()-1).getName();
+			KnowenAgnet.RemoveOutcome(Currentoffer);
+
+			outcome other=otheragnet.RemoveOutcome(Currentoffer);
+			outcome best=otheragnet.RemoveBestOutcome();
+
+			if (best==null || best.getValue()<other.getValue()){
+				return other;
+			}
+
+			KnowenAgnet.RemoveOutcome(best.getName());
+			if (best.getName().equals(offer)){
+				return best;
+			}
+			better=otheragnet.OutComesBeterThen(offer);
+			better.sort(null);
+		}
+
+		if (better.size()==1){
+			Currentoffer=otheragnet.CopyWorstOutcome().getName();
+			KnowenAgnet.RemoveOutcome(Currentoffer);
+
+			outcome other=otheragnet.RemoveOutcome(Currentoffer);
+			outcome best=otheragnet.RemoveBestOutcome();
+
+			if (best==null || best.getValue()<other.getValue()){
+				return other;
+			}
+
+			KnowenAgnet.RemoveOutcome(best.getName());
+			if (best.getName().equals(offer)){
+				return best;
+			}
+			better=otheragnet.OutComesBeterThen(offer);
+		}
+		KnowenAgnet.RemoveOutcome(offer);
+
+		outcome other=otheragnet.RemoveOutcome(offer);
+		outcome best=otheragnet.RemoveBestOutcome();
+
+		if (best==null || best.getValue()<other.getValue()){
+			return other;
+		}
+
+		return null;
+	}
+
+	private static outcome FindOrderOfOffersWhenUnknownStartingTeza(Agent KnowenAgnet,Agent otheragnet,String PastMove){
+        String wanted=KnowenAgnet.CopyBestOutcome().getName();
+    	if (KnowenAgnet.getOutComeOptions().length%2==1){
+			if (otheragnet.CopyWorstOutcome().getName().equals(wanted)){
+				Agent KnowenAgnetC=new Agent(KnowenAgnet);
+				KnowenAgnetC.RemoveBestOutcome();
+				wanted=KnowenAgnetC.RemoveBestOutcome().getName();
+			}
+		}
+        
+        
+        //take the other agent best offer
+		outcome OtherAgnetNextOnTheTable=otheragnet.RemoveBestOutcome();
+		KnowenAgnet.RemoveOutcome(OtherAgnetNextOnTheTable.getName());
+		if (OtherAgnetNextOnTheTable.getName().equals(wanted)){
+			return OtherAgnetNextOnTheTable;
+		}
+		else{
+			return FindOrderOfOffersWhenKnownStartingTeza(KnowenAgnet,otheragnet,"");
+		}
+	}
+
+	
 	public static void printStatistic() {
 		for (int i = 0; i < _out.length; i++) {
 			System.out.print(_out[i]+" ");

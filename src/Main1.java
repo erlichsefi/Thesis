@@ -6,7 +6,7 @@ import Voting.VotingProtocol;
 import tools.Agent;
 import tools.outcome;
 
-public class Main {
+public class Main1 {
 
 	public static void main(String[] args){
 	    Agent otherAgnet=new Agent("other agent","o1<o2<o3<o4");

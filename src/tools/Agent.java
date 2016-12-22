@@ -1,8 +1,11 @@
 package tools;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.swing.plaf.synth.SynthSpinnerUI;
 
 
 public class Agent {
@@ -39,15 +42,16 @@ public class Agent {
 	 * return the outcome of the nego if the other agent know my preference and the offer i'm start with offer
 	 * @param OtherAgent the agent that gave the offer
 	 * @param offer the offer name
+	 * @param tree 
 	 * @return
 	 */
-	public  outcome FullInfoTurn(Agent OtherAgent,String path,String offer){
+	public  outcome FullInfoTurn(Agent OtherAgent,String path,String offer, TNode tree){
 		//remove the offer that gotten
 		OtherAgent.O.remove(offer);
 		outcome MyValueForOffer=O.remove(offer);
-        
 		// there is noting to offer
 		if (O.isEmpty()){
+			tree.Accept(this.agentname,offer);
 			MyValueForOffer.firstPath(path+":"+agentname+" accepts "+offer);
 			return MyValueForOffer;
 		}
@@ -56,22 +60,23 @@ public class Agent {
 			outcome next=CopyBestOutcome();
 			if (next.getValue()<MyValueForOffer.getValue()){
 				MyValueForOffer.firstPath(path+":"+agentname+" accepts "+offer+"  because it is best");
+				tree.Accept(this.agentname,offer);
 				return MyValueForOffer;
 			}
 		}
+		TNode current=new TNode(this.agentname,offer,O.size());
 
 		//build all possible outcomes
 		outcome[] PossibleOut=new outcome[O.size()];
 		int j=0;
 		for (Map.Entry<String, outcome> entry : O.entrySet()) {
 			String move=": "+ agentname+" reject "+offer+" and offer "+entry.getKey();
-			outcome OtherAgentOutCome=new Agent(OtherAgent).FullInfoTurn(new Agent(this),path+move,entry.getKey());
+			outcome OtherAgentOutCome=new Agent(OtherAgent).FullInfoTurn(new Agent(this),path+move,entry.getKey(),current);
 			PossibleOut[j++]=O.get(OtherAgentOutCome.name);
 		}
 		
 		//find better outcome from current
 		for (int i = 0; i < PossibleOut.length; i++) {
-			
 			//if it's better 
 			if (PossibleOut[i].value>MyValueForOffer.value){
 				MyValueForOffer=new outcome(PossibleOut[i]);
@@ -79,7 +84,8 @@ public class Agent {
 				MyValueForOffer.addPath(PossibleOut[i].getPathToout());
 			}
 		}
-
+		current.Setselected(MyValueForOffer.name);
+		tree.Addoption(current);
 		return MyValueForOffer;
 	}
 
@@ -218,6 +224,18 @@ public class Agent {
 	public String toString() {
 		return "Agent [strPrefrence=" + strPrefrence + ", agentname=" + agentname
 				+ ", getPrefrenceAboutCurrentOptions()=" + getPrefrenceAboutCurrentOptions() + "]";
+	}
+
+	
+	public ArrayList<outcome> OutComesBeterThen(String n) {
+		ArrayList<outcome> a=new ArrayList<outcome> ();
+		int v=O.get(n).getValue();
+		for (Entry<String, outcome> entry : O.entrySet()){
+			if (v<entry.getValue().getValue()){
+				a.add(entry.getValue());
+			}
+		}
+		return a;
 	}
 
 
