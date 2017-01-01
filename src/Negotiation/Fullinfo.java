@@ -83,25 +83,32 @@ public class Fullinfo extends Algo{
 		outcome bestoutcome=null;
 		String startingOffer=null;
 		TNode tree=new TNode(StartingAgent.getAgentName(),"Start",out.length);
+		tree.setPreprence(StartingAgent.getAgentName(),StartingAgent.getPrefrence(),Agent.getAgentName(),Agent.getPrefrence());
 		for (int k = 0; k < out.length; k++) {
 			Agent myAgnetCopt=new Agent(Agent);
 			Agent otherAgentCopy=new Agent(StartingAgent);
 			outcome outcomeName=new Agent(myAgnetCopt).FullInfoTurn(new Agent(otherAgentCopy),otherAgentCopy.getAgentName()+"  offering "+out[k],out[k],tree);
 			outcome o=otherAgentCopy.copyOutcome(outcomeName.getName());
-			
+
 			if (bestoutcome==null){
 				bestoutcome=new outcome(o);
 				startingOffer=out[k];
+				tree.initselected(out[k]);
 			}
 			else if (o.getValue()>bestoutcome.getValue()){
 				bestoutcome=new outcome(o);
 				startingOffer=out[k];
-
+				tree.initselected(out[k]);
+			}
+			else if (o.getValue()==bestoutcome.getValue()){
+				tree.addselected(out[k]);	
+				bestoutcome.addPath(o.getPathToout());
 			}
 		}
-		tree.Setselected(bestoutcome.getName());
-		tree.print();
-		return new options(Agent.getPrefrence(),startingOffer,bestoutcome.getName(),bestoutcome.getPathToout());
+
+		options ans=new options(Agent.getPrefrence(),startingOffer,bestoutcome.getName(),bestoutcome.getPathToout());
+		ans.setTree(tree);
+		return ans ;
 	}
 
 	public static options FindBestByPrefernceTez(String[] out,Agent Agent,Agent StartingAgent){
@@ -129,7 +136,7 @@ public class Fullinfo extends Algo{
 		}
 		int turnPass=-1;
 		int eliminteCount=numberOfPassStarting+numberOfPassWaiting;
-		int intresect=Intesect(SAgentWorst,WAgentWorst);
+		int intresect=IntesectCount(SAgentWorst,WAgentWorst);
 		int uonion=(numberOfPassWaiting+numberOfPassStarting-2*intresect);
 
 		if (even){
@@ -152,29 +159,10 @@ public class Fullinfo extends Algo{
 			Agent.RemoveOutcome(SAgentWorst[i].getName());
 		}
 
-		//		System.out.println("##########");
-		//		System.out.println("eliminteCount: "+eliminteCount);
-		//		System.out.println("intresect :"+intresect);
-		//		System.out.println("sameRange: "+sameRange);
 
-
-
-
-		String[] o=Agent.getOutComeOptions();
-		String[] o2=StartingAgent.getOutComeOptions();
-
-		//push the arrays in the list.
-		ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(o));
-		ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(o2));
-
-		HashSet <String> set = new HashSet <String>();
-
-		//add the lists in the set.
-		set.addAll(list1);
-		set.addAll(list2);
 
 		//convert it back to array.
-		String[] unionArray = set.toArray(new String[0]);  
+		String[] unionArray = outcomeLeft(Agent,StartingAgent);  
 		if (unionArray.length>2){
 			if (turnPass%2==0){
 				return FindBestByPrefernceTez(unionArray,new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()),new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()));
@@ -198,6 +186,53 @@ public class Fullinfo extends Algo{
 			//return new options(Agent.getPrefrence(),startingOffer,bestoutcome.getName());
 		}
 	}
+
+
+	public static options FindBestByPrefernceTezaEliminteIntesection(String[] out,Agent Agent,Agent StartingAgent){
+		int numberOfPassStarting;
+		int numberOfPassWaiting;
+		if (out.length%2==0){
+			numberOfPassStarting=out.length/2-1;
+			numberOfPassWaiting=out.length/2;
+		}
+		else{
+			numberOfPassStarting=out.length/2;
+			numberOfPassWaiting=out.length/2;
+		}
+
+		outcome[] SAgentWorst=StartingAgent.CopyNworst(numberOfPassStarting);
+		outcome[] WAgentWorst=Agent.CopyNworst(numberOfPassWaiting);
+		ArrayList<outcome> el=IntesectGroup(SAgentWorst,WAgentWorst);
+	     for (outcome o: el){
+	    	 StartingAgent.RemoveOutcome(o.getName());
+	    	 Agent.RemoveOutcome(o.getName());
+	     }
+		
+		String[] unionArray = outcomeLeft(Agent,StartingAgent); 
+		if (el.isEmpty()){
+
+
+			if (el.size()%2==0){
+				return FindBestByPrefernceTez(unionArray,new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()),new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()));
+			}
+			else{
+				return FindBestByPrefernceTez(unionArray,new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()),new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()));
+
+			}
+		}
+		else{
+			if (el.size()%2==0){
+				return FindBestByPrefernceTezaEliminteIntesection(unionArray,new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()),new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()));
+			}
+			else{
+				return FindBestByPrefernceTezaEliminteIntesection(unionArray,new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()),new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()));
+			}
+		}
+
+	}
+
+
+
 
 	public static String[] FindBestByPrefernceTezTwo(String[] out,Agent Agent,Agent StartingAgent){
 		int numberOfPassStarting;
@@ -224,7 +259,7 @@ public class Fullinfo extends Algo{
 		}
 		int turnPass=-1;
 		int eliminteCount=numberOfPassStarting+numberOfPassWaiting;
-		int intresect=Intesect(SAgentWorst,WAgentWorst);
+		int intresect=IntesectCount(SAgentWorst,WAgentWorst);
 		int uonion=(numberOfPassWaiting+numberOfPassStarting-2*intresect);
 
 		if (even){
@@ -247,21 +282,8 @@ public class Fullinfo extends Algo{
 		}
 
 
-		String[] o=Agent.getOutComeOptions();
-		String[] o2=StartingAgent.getOutComeOptions();
-
-		//push the arrays in the list.
-		ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(o));
-		ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(o2));
-
-		HashSet <String> set = new HashSet <String>();
-
-		//add the lists in the set.
-		set.addAll(list1);
-		set.addAll(list2);
-
 		//convert it back to array.
-		String[] unionArray = set.toArray(new String[0]);  
+		String[] unionArray = outcomeLeft(Agent,StartingAgent); 
 		if (unionArray.length>2){
 			if (turnPass%2==0){
 				return FindBestByPrefernceTezTwo(unionArray,new Agent(Agent.getAgentName(),Agent.getPrefrenceAboutCurrentOptions()),new Agent(StartingAgent.getAgentName(),StartingAgent.getPrefrenceAboutCurrentOptions()));
@@ -279,52 +301,61 @@ public class Fullinfo extends Algo{
 
 
 	public static options FindBestByPrefernceTez2(String[] out,Agent Agent,Agent StartingAgent){
-		Agent otherC=new Agent(StartingAgent);
+		Agent otherC=new Agent(Agent);
+		Agent staringC=new Agent(StartingAgent);
 		outcome[] o=new outcome[out.length];
-		Map<String,outcome> o2=new HashMap<String,outcome> ();
+		Map<String,outcome> o2=new HashMap<String,outcome>();
 
 		int i=0;
 		while (Agent.HasMoreOffers()){
 			outcome a1=Agent.RemoveBestOutcome();
 			outcome a2=StartingAgent.RemoveOutcome(a1.getName());
-			o2.put(a1.getName(), new outcome("both",a1.getName(),Math.abs(a1.getValue()-a2.getValue())));
-			o[i++]=new outcome("both",a1.getName(),a1.getValue()*a2.getValue());
+			o2.put(a1.getName(),new outcome("both",a1.getName(),(out.length-(1.1)*Math.abs(a1.getValue()-a2.getValue()))));
+			o[i++]=new outcome("both",a1.getName(),a1.getValue()+a2.getValue());
 		}
 		Arrays.sort(o);
-
-		if (o[0].getValue()!=o[1].getValue()){
-			return new options(null,null,o[0].getName());
-		}
-		else{
-			ArrayList<outcome> t=new ArrayList<outcome> ();
-			int m=0;
-			while (m<o.length && o[m].getValue()==o[0].getValue()){
-				t.add(o2.get(o[m].getName()));
-				m++;
+		ArrayList<outcome> a=new ArrayList<outcome>();
+		double max=o[0].getValue();
+		for (int j = 0; j < o.length; j++) {
+			if (o[j].getValue()==max){
+				a.add(o2.get(o[j].getName()));
 			}
+		}
+		a.sort(null);
+		max=a.get(0).getValue();
+		ArrayList<outcome> diff=new ArrayList<outcome>();
+		for (int j = 0; j <a.size(); j++) {
+			if (a.get(j).getValue()==max){
+				diff.add(a.get(j));
+			}
+		}
+		if (a.size()==1)
+			return new options("","",a.get(0).getName(),"");
+		else{
+			outcome o1;
+			outcome o3;
+			if ((out.length-2)%2==0){
+				o1=staringC.copyOutcome(a.get(0).getName());
+				o3=staringC.copyOutcome(a.get(1).getName());
 
-			t.sort(null);
-			if (!(t.size()>1 && t.get(0).getValue()==t.get(1).getValue())){
-				return new options(null,null,t.get(0).getName());
 			}
 			else{
-				if (otherC.RemoveOutcome( t.get(0).getName()).getValue()>otherC.RemoveOutcome( t.get(1).getName()).getValue()){
-					return new options(null,null,t.get(0).getName());
-				}
-				else{
-					return new options(null,null,t.get(1).getName());
-
-				}
-			
-			
+				o1=otherC.copyOutcome(a.get(0).getName());
+				o3=otherC.copyOutcome(a.get(1).getName());
 			}
+			if (o1.getValue()<o3.getValue()){
+				return new options("","",o1.getName(),"");
+			}
+			else{
+				return new options("","",o3.getName(),"");
 
-
-
+			}
+			
 		}
+		
 	}
 
-	private static int Intesect(outcome[] sAgentWorst, outcome[] wAgentWorst) {
+	private static int IntesectCount(outcome[] sAgentWorst, outcome[] wAgentWorst) {
 		int count=0;
 		for (int i = 0; i < sAgentWorst.length; i++) {
 			for (int j = 0; j < wAgentWorst.length; j++) {
@@ -335,6 +366,20 @@ public class Fullinfo extends Algo{
 			}
 		}
 		return count;
+	}
+
+
+	private static ArrayList<outcome> IntesectGroup(outcome[] sAgentWorst, outcome[] wAgentWorst) {
+		ArrayList<outcome> res=new ArrayList<outcome>();
+		for (int i = 0; i < sAgentWorst.length; i++) {
+			for (int j = 0; j < wAgentWorst.length; j++) {
+				if (sAgentWorst[i].getName().equals(wAgentWorst[j].getName())){
+					res.add(sAgentWorst[i]);
+					break;
+				}
+			}
+		}
+		return res;
 	}
 
 	private static boolean IsInlist(outcome lastLeft, outcome[] wAgentWorst) {
@@ -350,5 +395,22 @@ public class Fullinfo extends Algo{
 		return sta;
 	}
 
+	private static String[] outcomeLeft(Agent a1,Agent a2){
+		String[] o=a1.getOutComeOptions();
+		String[] o2=a2.getOutComeOptions();
+
+		//push the arrays in the list.
+		ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(o));
+		ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(o2));
+
+		HashSet <String> set = new HashSet <String>();
+
+		//add the lists in the set.
+		set.addAll(list1);
+		set.addAll(list2);
+
+		//convert it back to array.
+		return set.toArray(new String[0]);  
+	}
 
 }

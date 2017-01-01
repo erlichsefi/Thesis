@@ -5,34 +5,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import org.junit.Test;
 
 import Negotiation.Algo;
-import Negotiation.AsimetricInfo;
 import Negotiation.Fullinfo;
 import tools.Agent;
 import tools.options;
-import tools.outcome;
 
 public class FullinfoTest {
 	int numberOfRuns=100;
 	int MaxNumberOfPrefrence=15;
 
 
-
-	//@Test
+	
+	@Test
 	public  void RandomTez() {
 		for (int i = 0; i < numberOfRuns; i++) {
 			//	String[] out=BuildPrefrncesArray(new Random().nextInt(MaxNumberOfPrefrence));
-			String[] out ={"o1","o2","o3","o4","o5","o6"};
+			String[] out ={"o1","o2","o3","o4","o5","o6","o7","o8"};
 
-			String per1=Algo.randomPrefrenceOver(out);
-			String per2=Algo.randomPrefrenceOver(out);
+			//String per1=Algo.randomPrefrenceOver(out);
+			//String per2=Algo.randomPrefrenceOver(out);
 			//String[] out ={"o1","o2","o3","o4"};
-			//String per2="o4<o1<o6<o2<o5<o3";
-			//String per1="o1<o2<o3<o5<o4<o6";
+			String per2="o6<o5<o7<o4<o3<o8<o1<o2";
+			String per1="o7<o5<o1<o2<o8<o4<o6<o3";
 
 			if (per1!=null && per2!=null ){
 
@@ -46,13 +43,15 @@ public class FullinfoTest {
 
 				otherAgnet=new Agent("P1",per1);
 				my=new Agent("P2",per2);
-				options o2=Fullinfo.FindBestByPrefernceTez(out,my,otherAgnet);
+				options o2=Fullinfo.FindBestByPrefernceTez2(out,my,otherAgnet);
 
 				System.out.println("OLD :"+o1);
 				System.out.println("NEW :"+o2);
 				System.out.println(o1.getPaths());
+			
+
 				if(!o1.getResult().equals(o2.getResult()) ){
-					//System.out.println("NEW :"+o2);
+					o1.getTree().print();
 					assertTrue(false);
 				}
 				else{
@@ -62,7 +61,7 @@ public class FullinfoTest {
 				System.out.println("******************");
 			}
 		}
-
+		System.out.println();
 	}
 
 
@@ -82,13 +81,13 @@ public class FullinfoTest {
 			gw = new BufferedWriter(gfw);
 			bfw = new FileWriter("bad.txt");
 			bw = new BufferedWriter(bfw);
-			String[] out ={"o1","o2","o3","o4","o5"};
+			String[] out ={"o1","o2","o3","o4","o5","o6","o7","o8","o9"};
 
 			ArrayList<String> per2=Algo.AllPossiblePrefrence(out);
 
 			for (int j = 0; j < per2.size(); j++) {
 				System.out.println((j+1)+"/"+per2.size());
-				String p1="o1<o2<o3<o4<o5";
+				String p1="o1<o2<o3<o4<o5<o6<o7<o8<o9";
 				String p2=per2.get(j);
 
 
@@ -99,11 +98,11 @@ public class FullinfoTest {
 
 				otherAgnet=new Agent("P1",p1);
 				my=new Agent("P2",p2);
-				options o2=Fullinfo.FindBestByPrefernceTez(out,my,otherAgnet);
+				options o2=Fullinfo.FindBestByPrefernceTezaEliminteIntesection(out,my,otherAgnet);
 
 				if (o1.getResult().equals(o2.getResult())){
 					gw.append("P1 "+p1+"   P2 "+p2+" Owers  "+o2.getResult()+"  Original  "+o1.getResult());
-					gw.append(""+o2.longestPathsTurnNumebr());
+					gw.append(" "+o2.longestPathsTurnNumebr());
 					gw.append("\n");
 				}
 				else{

@@ -6,20 +6,22 @@ import java.util.Arrays;
 public class outcome implements Comparable<outcome>{
 	String agentname;
 	String name;
-	int value;
+	double value;
 	int index;
 	ArrayList<String> pathToout;
 	/**
 	 * @param name
 	 * @param value
 	 */
-	public outcome(String _agentname,String name, int value) {
+	public outcome(String _agentname,String name, double value) {
 		super();
 		agentname=_agentname;
 		this.name = name;
 		this.value = value;
 		pathToout=new ArrayList<String>();
 	}
+
+	
 
 
 	public outcome(outcome o) {
@@ -47,7 +49,7 @@ public class outcome implements Comparable<outcome>{
 	public String getName() {
 		return name;
 	}
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 

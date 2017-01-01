@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 
 public class Agent {
@@ -42,16 +41,18 @@ public class Agent {
 	 * return the outcome of the nego if the other agent know my preference and the offer i'm start with offer
 	 * @param OtherAgent the agent that gave the offer
 	 * @param offer the offer name
-	 * @param tree 
+	 * @param FatherNode 
 	 * @return
 	 */
-	public  outcome FullInfoTurn(Agent OtherAgent,String path,String offer, TNode tree){
+	public  outcome FullInfoTurn(Agent OtherAgent,String path,String offer, TNode FatherNode){
+	
 		//remove the offer that gotten
 		OtherAgent.O.remove(offer);
 		outcome MyValueForOffer=O.remove(offer);
+		
 		// there is noting to offer
 		if (O.isEmpty()){
-			tree.Accept(this.agentname,offer);
+			FatherNode.Accept(agentname,offer,"last offer");
 			MyValueForOffer.firstPath(path+":"+agentname+" accepts "+offer);
 			return MyValueForOffer;
 		}
@@ -60,12 +61,13 @@ public class Agent {
 			outcome next=CopyBestOutcome();
 			if (next.getValue()<MyValueForOffer.getValue()){
 				MyValueForOffer.firstPath(path+":"+agentname+" accepts "+offer+"  because it is best");
-				tree.Accept(this.agentname,offer);
+				FatherNode.Accept(agentname,offer,"better then: "+getPrefrenceAboutCurrentOptions());
 				return MyValueForOffer;
 			}
 		}
-		TNode current=new TNode(this.agentname,offer,O.size());
-
+		
+		TNode current=new TNode(agentname,offer,O.size());
+		current.initselected(MyValueForOffer.name);
 		//build all possible outcomes
 		outcome[] PossibleOut=new outcome[O.size()];
 		int j=0;
@@ -80,12 +82,14 @@ public class Agent {
 			//if it's better 
 			if (PossibleOut[i].value>MyValueForOffer.value){
 				MyValueForOffer=new outcome(PossibleOut[i]);
+				current.initselected(PossibleOut[i].name);
 			}else if (PossibleOut[i].value==MyValueForOffer.value){
 				MyValueForOffer.addPath(PossibleOut[i].getPathToout());
+				current.addselected(PossibleOut[i].name);
 			}
 		}
-		current.Setselected(MyValueForOffer.name);
-		tree.Addoption(current);
+		
+		FatherNode.Addoption(current);
 		return MyValueForOffer;
 	}
 
@@ -126,13 +130,11 @@ public class Agent {
 
 
 	public outcome RemoveOutcome(String name) {
-		// TODO Auto-generated method stub
 		return O.remove(name);
 	}
 
 
 	public boolean HasMoreOffers() {
-		// TODO Auto-generated method stub
 		return !O.isEmpty();
 	}
 
@@ -172,18 +174,15 @@ public class Agent {
 	}
 
 	public String[] getPrefrenceArray() {
-		// TODO Auto-generated method stub
 		return pre;
 	}
 
 
 	public outcome copyOutcome(String name) {
-		// TODO Auto-generated method stub
 		return O.get(name);
 	}
 
 	public String getAgentName() {
-		// TODO Auto-generated method stub
 		return agentname;
 	}
 
@@ -229,7 +228,7 @@ public class Agent {
 	
 	public ArrayList<outcome> OutComesBeterThen(String n) {
 		ArrayList<outcome> a=new ArrayList<outcome> ();
-		int v=O.get(n).getValue();
+		double v=O.get(n).getValue();
 		for (Entry<String, outcome> entry : O.entrySet()){
 			if (v<entry.getValue().getValue()){
 				a.add(entry.getValue());

@@ -149,4 +149,16 @@ public class Algo {
 
 
 
+	
+	 public static String opossiteOrder(String per1) {
+		String[] out=per1.split("<");
+		String ans=out[0];
+		for (int i = 1; i < out.length; i++) {
+			ans=out[i]+"<"+ans;
+		}
+		return ans;
+	}
+
+
+
 }

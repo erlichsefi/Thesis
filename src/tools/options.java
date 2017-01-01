@@ -3,6 +3,7 @@ package tools;
 import java.util.ArrayList;
 
 public class options{
+	TNode tree;
 	String prefrence;
 	String startingOffer;
 	String resultOffer;
@@ -83,6 +84,14 @@ public class options{
 	public int longestPathsTurnNumebr() {
 		String str=longestPaths();
 		return str.split(":").length;
+	}
+
+	public TNode getTree() {
+		return tree;
+	}
+
+	public void setTree(TNode tree) {
+		this.tree = tree;
 	}
 	
 	
