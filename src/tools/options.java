@@ -58,7 +58,7 @@ public class options{
 
 	@Override
 	public String toString() {
-		return "options [prefrence=" + prefrence + ", startingOffer=" + startingOffer + ", resultOffer=" + resultOffer+"\n"+getPaths();
+		return "options [prefrence=" + prefrence + ", startingOffer=" + startingOffer + ", resultOffer=" + resultOffer;
 	}
 	
 	public String getPaths(){
@@ -80,6 +80,25 @@ public class options{
 		return l;
 		
 	}
+	
+	public String getOrder(String path){
+		String[] l=path.split(":");
+		String a="";
+		for (int i = 0; i < l.length; i++) {
+			if (!l[i].contains("accept"))
+			a=a+l[i].substring(l[i].length()-2,l[i].length())+":";
+		}
+		return a;
+	}
+	
+	public String GetPathSizedN(int numeberOfOffers){
+		for (int i = 0; i < path.size(); i++) {
+			if (path.get(i).split(":").length==(numeberOfOffers+1)){
+				return new String(path.get(i));
+			}
+		}
+		return null;
+	}
 
 	public int longestPathsTurnNumebr() {
 		String str=longestPaths();
@@ -92,6 +111,45 @@ public class options{
 
 	public void setTree(TNode tree) {
 		this.tree = tree;
+	}
+
+	public void setPath(String string) {
+		path.add(string);
+		
+	}
+
+	public boolean IsAllPathsEndWith(String move){
+		for (int i = 0; i < path.size(); i++) {
+			if (!getOrder(path.get(i)).endsWith(move+":")){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public String getPathOf(String longestPaths) {
+		for (int i = 0; i < path.size(); i++) {
+			String order=getOrder(path.get(i));
+			if (order.equals(longestPaths)){
+				return path.get(i);
+			}
+		}
+		return null;
+	}
+
+	public void initPath(String p) {
+		path.clear();
+		path.add(p);
+		
+	}
+
+	public String getOrders() {
+		String ans="";
+		for (int i = 0; i < path.size(); i++) {
+			ans=ans+getOrder(path.get(i))+"\n";
+		
+		}
+		return ans;
 	}
 	
 	

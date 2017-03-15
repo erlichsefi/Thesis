@@ -1,6 +1,7 @@
 package Negotiation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 
@@ -12,25 +13,72 @@ public class Algo {
 
 
 
+	public static ArrayList<String[]> AllSubGroupsWithOutReturn(String[] superSet, int k) {
+		ArrayList<String[]> res = new ArrayList<>();
+		getSubsets(Arrays.asList(superSet), k, 0, new ArrayList<String>(), res);
+		return res;
+	}
 
-
-
-	public static ArrayList<String> AllPossiblePrefrence(String[] out){
-
-		ArrayList<String> out2=new ArrayList<String>();
-		for (int i = 0; i < out.length; i++) {
-			out2.add(out[i]);
+	private static void getSubsets(List<String> superSet, int k, int idx, ArrayList<String> current,ArrayList<String[]> solution) {
+		//successful stop clause
+		if (current.size() == k) {
+			solution.add(current.toArray(new String[k]));
+			return;
 		}
-		String pre="";
-		ArrayList<String> result=new ArrayList<String>();
-		AllPossible(out2,result,pre);
-		return result;
+		//unseccessful stop clause
+		if (idx == superSet.size()) return;
+		String x = superSet.get(idx);
+		current.add(x);
+		//"guess" x is in the subset
+		getSubsets(superSet, k, idx+1, current, solution);
+		current.remove(x);
+		//"guess" x is not in the subset
+		getSubsets(superSet, k, idx+1, current, solution);
 	}
 
 
 
+
+
+
+	//	public static ArrayList<String[]> AllSubGroupsWithOutReturn(String[] out,int k){
+	//		ArrayList<String> out2=new ArrayList<String>();
+	//		for (int i = 0; i < out.length; i++) {
+	//			out2.add(out[i]);
+	//		}
+	//		ArrayList<String[]> result=new ArrayList<String[]>();
+	//		ArrayList<String> tempout=new ArrayList<String>(Arrays.asList(out));
+	//		AllPossibleSubGroups(tempout,result, k,0,new String[k]);
+	//		return result;
+	//	}
+	//
+	//	private static void AllPossibleSubGroups(ArrayList<String> out,ArrayList<String[]> result,int k,int j,String[] pre){
+	//		if (j<k){
+	//			ArrayList<String> tempout=new ArrayList<String>(out);
+	//			while (!tempout.isEmpty()) {
+	//				pre[j]=tempout.remove(0);
+	//				AllPossibleSubGroups(tempout,result, k,j+1,pre);
+	//			}
+	//		}
+	//		else{
+	//			result.add(Arrays.copyOf(pre, pre.length));
+	//		}
+	//	}
+	//
+	public static ArrayList<String> AllPossiblePrefrence(String[] out){
+		ArrayList<String> out2=new ArrayList<String>();
+		for (int i = 0; i < out.length; i++) {
+			out2.add(out[i]);
+		}
+		ArrayList<String> result=new ArrayList<String>();
+
+		if (out.length>0){
+			String pre="";
+			AllPossible(out2,result,pre);
+		}
+		return result;
+	}
 	private static void AllPossible(ArrayList<String> out,ArrayList<String> result,String pre){
-		System.out.println(result.size());
 		if (out.size()!=0){
 			for (int i = 0; i < out.size(); i++) {
 				ArrayList<String> tempout=new ArrayList<String>(out);
@@ -60,7 +108,32 @@ public class Algo {
 
 	}
 
+	public static String[] substract(String[] From, String[] the) {
+		if (From.length==0 || the.length==0){
+			return From;
+		}
+		String[] an=new String[From.length-the.length];
+		int j=0;
+		for (int i = 0; i < From.length; i++) {
+			boolean Toremove=false;
+			for (int k = 0; k < the.length; k++) {
+				if (the[k].equals(From[i])){
+					Toremove=true;	
+				}
+			}
+			if (!Toremove){
+				an[j++]=From[i];
+			}
+		}
+		return an;
+	}
 
+	public static String[] append(String[] strings, String[] lowerThen2) {
+		String[] result = Arrays.copyOf(strings, strings.length+lowerThen2.length);
+		int offset = strings.length;
+		System.arraycopy(lowerThen2, 0, result, offset, lowerThen2.length);
+		return result;		
+	}
 	public static int indexOf(String[] out,String Sout){
 		for (int i = 0; i < out.length; i++) {
 			if (out[i].endsWith(Sout))
@@ -69,47 +142,8 @@ public class Algo {
 		return -1;
 	}
 
-//	public static void FullINFOsTATISTIC(){
-//		String[] out={"o1","o2","o3"};//,"o4","o5","o6","o7"};
-//		String otherAgnetpref="o1<o2<o3";//<o4<o5<o6<o7";
-//
-//		int[][] statMath=new int[out.length][out.length];
-//		System.out.println("        "+otherAgnetpref+"             "+Arrays.toString(out));
-//		ArrayList<String> client1prefernce=Algo.AllPossiblePrefrence(out);
-//
-//		for (int i = 0; i < client1prefernce.size(); i++) {
-//			String prefrence=client1prefernce.get(i);
-//
-//			System.out.print("agent prefernce is : "+prefrence+" ");
-//			for (int k = 0; k < out.length; k++) {
-//				Agent myAgnet=new Agent("agent1",prefrence);
-//				Agent otherAgent=new Agent("agent2",otherAgnetpref);
-//				outcome o=otherAgent.FullInfoTurn(myAgnet,"",out[k]);
-//				System.out.print(o.getName()+"  ");
-//				int outindex=indexOf(out,o.getName());
-//				statMath[k][outindex]++;
-//			}
-//			System.out.println();
-//		}
-//
-//
-//
-//		System.out.println("**************************************************");
-//
-//		System.out.println("Statictics:");
-//		System.out.println("    "+Arrays.toString(out));
-//
-//		for (int i = 0; i < statMath.length; i++) {
-//			System.out.print(out[i]+"   ");
-//			for (int j = 0; j < statMath.length; j++) {
-//				System.out.print(statMath[i][j]+"   ");
-//			}
-//			System.out.println();
-//		}
-//	}
 
-
-	 static void printStatistic1(String[] out,int[][] statMath){
+	static void printStatistic(String[] out,int[][] statMath){
 		System.out.println("Statictics:");
 		System.out.println("    "+Arrays.toString(out));
 
@@ -122,7 +156,7 @@ public class Algo {
 		}
 	}
 
-	 static void printStatistic1(String[] out,int[] statMath){
+	static void printStatistic(String[] out,int[] statMath){
 		System.out.println("start with:       "+Arrays.toString(out));
 		System.out.println("numer of options: "+Arrays.toString(statMath));
 
@@ -130,27 +164,27 @@ public class Algo {
 
 
 
-	
-	 public static String[] BuildOutComeArray(int runTo) {
+
+	public static String[] BuildOutComeArray(int runTo) {
 		String[] out=new String[runTo];
 		for (int i = 0; i < runTo; i++) {
 			out[i]="o"+(i+1);
 		}
 		return out;
 	}
-	 
-	 public static String BuildOneOrder(int runTo) {
-			String out="o1";
-			for (int i = 1; i < runTo; i++) {
-				out=out+"<o"+(i+1);
-			}
-			return out;
+
+	public static String BuildOneOrder(int runTo) {
+		String out="o1";
+		for (int i = 1; i < runTo; i++) {
+			out=out+"<o"+(i+1);
 		}
+		return out;
+	}
 
 
 
-	
-	 public static String opossiteOrder(String per1) {
+
+	public static String opossiteOrder(String per1) {
 		String[] out=per1.split("<");
 		String ans=out[0];
 		for (int i = 1; i < out.length; i++) {

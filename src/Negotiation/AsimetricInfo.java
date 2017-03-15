@@ -8,6 +8,7 @@ import tools.outcome;
 
 public class AsimetricInfo extends Algo{
 	static int[] stat;
+	static String pref="";
 
 
 	/**
@@ -154,6 +155,13 @@ public class AsimetricInfo extends Algo{
 		}
 	}
 	
+	/**
+	 * compute a asymtric game and get the result
+	 * @param KnowenAgnet the agent that know the other values
+	 * @param otheragnet the agent that do not know the other agent value
+	 * @param KnowStarting true if the agent the know starting
+	 * @return
+	 */
 	public static outcome AsimetricInfoGame(Agent KnowenAgnet,Agent otheragnet,boolean KnowStarting){
 		if (KnowStarting){
 			return FindOrderOfOffersWhenKnownStarting(KnowenAgnet,otheragnet,"");
@@ -164,6 +172,13 @@ public class AsimetricInfo extends Algo{
 		}
 	}
 
+	/**
+	 * algoritem offer outcomes that will result in the best outcome
+     * @param KnowenAgnet the agent that know the other values
+	 * @param otheragnet the agent that do not know the other agent value
+	 * @param KnowStarting true if the agent the know starting
+	 * @return
+	 */
 	public static outcome AsimetricInfoGameTeza(Agent KnowenAgnet,Agent otheragnet,boolean KnowStarting){
 		if (KnowStarting){
 			return FindOrderOfOffersWhenKnownStartingTeza(KnowenAgnet,otheragnet,"");

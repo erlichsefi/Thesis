@@ -1,7 +1,6 @@
 package tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class outcome implements Comparable<outcome>{
 	String agentname;
@@ -75,15 +74,35 @@ public class outcome implements Comparable<outcome>{
 		
 	}
 
-	public void firstPath(String pathToout2 ) {
+	public void firstPath(String pathToout2) {
 		pathToout=new ArrayList<String>();
 		pathToout.add(pathToout2);
 		
 	}
 
 	public void InitPath(ArrayList<String> pathToout2) {
-		pathToout.clear();
+		pathToout=new ArrayList<String>();
 		addPath(pathToout2);
+	}
+
+
+	
+
+	public String getPlayer() {
+		// TODO Auto-generated method stub
+		return agentname;
+	}
+
+
+
+
+	public boolean IsAllPathStartWith(String move) {
+		for (int i = 0; i < pathToout.size(); i++) {
+			if (!pathToout.get(i).startsWith(move)){
+				return false;
+			}
+		}
+		return true;
 	}
 
 
