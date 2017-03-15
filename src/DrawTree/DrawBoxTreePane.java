@@ -27,7 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Extra;
+package DrawTree;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -36,10 +36,8 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
 
 import org.abego.treelayout.TreeForTreeLayout;
 import org.abego.treelayout.TreeLayout;
@@ -49,30 +47,25 @@ import org.abego.treelayout.TreeLayout;
  * 
  * @author Udo Borkowski (ub@abego.org)
  */
-public class TextInBoxTreePane extends Canvas {
+public class DrawBoxTreePane extends Canvas {
+
+	private static final long serialVersionUID = 1L;
 	private ZoomAndPanListener zoomAndPanListener;
-	private final TreeLayout<TextInBox> treeLayout;
+	private final TreeLayout<DrawBox> treeLayout;
+
 	private boolean init = true;
+	
+	private final static int ARC_SIZE = 30;
+	private final static Color BOX_COLOR = Color.orange;
+	private final static Color BORDER_COLOR = Color.darkGray;
+	private final static Color TEXT_COLOR = Color.black;
+	private final static Color CHOSEEN_COLOR = Color.GREEN;
+	private final static Color NON_CHOSEEN_COLOR = Color.RED;
 
-	private TreeForTreeLayout<TextInBox> getTree() {
-		return treeLayout.getTree();
-	}
+	private final static int Dimension_WIDTH=600;
+	private final static int Dimension_HIGTH=500;
 
-	private Iterable<TextInBox> getChildren(TextInBox parent) {
-		return getTree().getChildren(parent);
-	}
-
-	private Rectangle2D.Double getBoundsOfNode(TextInBox node) {
-		return treeLayout.getNodeBounds().get(node);
-	}
-
-	/**
-	 * Specifies the tree to be displayed by passing in a {@link TreeLayout} for
-	 * that tree.
-	 * 
-	 * @param treeLayout the {@link TreeLayout} to be displayed
-	 */
-	public TextInBoxTreePane(TreeLayout<TextInBox> treeLayout) {
+	public DrawBoxTreePane(TreeLayout<DrawBox> treeLayout) {
 		this.treeLayout = treeLayout;
 		this.zoomAndPanListener = new ZoomAndPanListener(this);
 		this.addMouseListener(zoomAndPanListener);
@@ -81,66 +74,53 @@ public class TextInBoxTreePane extends Canvas {
 		Dimension size = treeLayout.getBounds().getBounds().getSize();
 		setPreferredSize(size);
 	}
-	public TextInBoxTreePane(TreeLayout<TextInBox> treeLayout,int minZoomLevel, int maxZoomLevel, double zoomMultiplicationFactor) {
-		this.treeLayout = treeLayout;
-		this.zoomAndPanListener = new ZoomAndPanListener(this, minZoomLevel, maxZoomLevel, zoomMultiplicationFactor);
-		this.addMouseListener(zoomAndPanListener);
-		this.addMouseMotionListener(zoomAndPanListener);
-		this.addMouseWheelListener(zoomAndPanListener);
-		Dimension size = treeLayout.getBounds().getBounds().getSize();
-		setPreferredSize(size);
+	
+	private TreeForTreeLayout<DrawBox> getTree() {
+		return treeLayout.getTree();
 	}
+
+	private Iterable<DrawBox> getChildren(DrawBox parent) {
+		return getTree().getChildren(parent);
+	}
+
+	private Rectangle2D.Double getBoundsOfNode(DrawBox node) {
+		return treeLayout.getNodeBounds().get(node);
+	}
+
 
 	public Dimension getPreferredSize() {
-		return new Dimension(600, 500);
+		return new Dimension(Dimension_WIDTH, Dimension_HIGTH);
 	}
-	// -------------------------------------------------------------------
-	// painting
-
-	private final static int ARC_SIZE = 30;
-	private final static Color BOX_COLOR = Color.orange;
-	private final static Color BORDER_COLOR = Color.darkGray;
-	private final static Color TEXT_COLOR = Color.black;
-
-	private void paintEdges(Graphics g, TextInBox parent) {
-		if (parent.order!=null){
-			String[] lines = parent.order.split("\n");
-			FontMetrics m = getFontMetrics(getFont());
-			int y=10;
-			for (int i = 0; i < lines.length; i++) {
-				g.drawString(lines[i], 1, y);
-				y += m.getHeight();
-			}
-		}
 
 
+	private void paintEdges(Graphics g, DrawBox parent) {
 		if (!getTree().isLeaf(parent)) {
+			
 			Rectangle2D.Double b1 = getBoundsOfNode(parent);
 			double x1 = b1.getCenterX();
 			double y1 = b1.getCenterY();
-			for (TextInBox child : getChildren(parent)) {
+			for (DrawBox child : getChildren(parent)) {
+			
 				Rectangle2D.Double b2 = getBoundsOfNode(child);
-				String OverLineText=child.getOverlineText();
-				if (OverLineText!=null){
-					g.drawString(OverLineText,   (int) ((x1+ b2.getCenterX())/2),(int) (y1+ b2.getCenterY())/2);
-				}
+				
+				paintTextOverEdge(g,b1,b2,child);
+				
 				if (child.choosen){
-					g.setColor(Color.GREEN);
+					g.setColor(CHOSEEN_COLOR);
 				}
 				else{
-					g.setColor(Color.RED);
+					g.setColor(NON_CHOSEEN_COLOR);
 
 				}
 				g.drawLine((int) x1, (int) y1, (int) b2.getCenterX(),
 						(int) b2.getCenterY());
-				g.setColor(Color.BLACK);
 
 				paintEdges(g, child);
 			}
 		}
 	}
 
-	private void paintBox(Graphics g, TextInBox textInBox) {
+	private void paintBox(Graphics g, DrawBox textInBox) {
 		// draw the box in the background
 		g.setColor(BOX_COLOR);
 		Rectangle2D.Double box = getBoundsOfNode(textInBox);
@@ -150,35 +130,14 @@ public class TextInBoxTreePane extends Canvas {
 		g.drawRoundRect((int) box.x, (int) box.y, (int) box.width - 1,
 				(int) box.height - 1, ARC_SIZE, ARC_SIZE);
 
-		// draw the text on top of the box (possibly multiple lines)
-		g.setColor(TEXT_COLOR);
-		FontMetrics m = getFontMetrics(getFont());
+		//draw the text to show inside the box
+		paintTextInBoxComment(g,box,textInBox);
 
-		String OverLineText=textInBox.getInBoxText();
-		if (OverLineText!=null){
-			g.setColor(TEXT_COLOR);
-			g.setFont(new Font("TimesRoman", Font.PLAIN,  (int) (Math.min(box.width,box.height)-4)));
-			int x=((int) box.x+1);
-			int y=((int) box.y)+((int) box.height-3);
-			g.drawString(OverLineText,  x,y);
-		}	
-
-		String[] lines = textInBox.text.split("\n");
-		int x = (int) box.x + ARC_SIZE / 2;
-		int y = (int) box.y + m.getAscent()/2 + m.getLeading() + 1;
-		for (int i = 0; i < lines.length; i++) {
-			g.drawString(lines[i], x, y);
-			y += m.getHeight();
-		}
-//		String why=textInBox.why;
-//
-//		if (why!=null) {
-//			x = (int) box.x + m.getAscent()/2 + m.getLeading() + 1;
-//			y = (int) box.y +  ARC_SIZE / 2;
-//			g.drawString(why, x, y);
-//		}
+		//draw the result from the branch
+		paintTextNearBoxComment(g,box,textInBox);
 	}
-
+	
+	
 	@Override
 	public void paint(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
@@ -199,14 +158,53 @@ public class TextInBoxTreePane extends Canvas {
 
 
 		super.paint(g);
-
-		paintEdges(g, getTree().getRoot());
-
+		DrawBox parent=getTree().getRoot();
+		paintEdges(g, parent);
+		paintTextComment(g,parent);
+		
 		// paint the boxes
-		for (TextInBox textInBox : treeLayout.getNodeBounds().keySet()) {
+		for (DrawBox textInBox : treeLayout.getNodeBounds().keySet()) {
 			paintBox(g, textInBox);
 		}
 
+
+	}
+	private void paintTextOverEdge(Graphics g,Rectangle2D.Double b1, Rectangle2D.Double b2,DrawBox child) {
+		String OverLineText=child.getOverlineText();
+		if (OverLineText!=null){
+			g.setColor(TEXT_COLOR);
+			g.drawString(OverLineText,(int)((b1.getCenterX()+ b2.getCenterX())/2),(int)(b1.getCenterY()+ b2.getCenterY())/2);
+		}
+	}
+	private void paintTextComment(Graphics g, DrawBox parent) {
+		if (parent.order!=null){
+			g.setColor(TEXT_COLOR);
+			String[] lines = parent.order.split("\n");
+			FontMetrics m = getFontMetrics(getFont());
+			int y=10;
+			for (int i = 0; i < lines.length; i++) {
+				g.drawString(lines[i], 1, y);
+				y += m.getHeight();
+			}
+		}
+	}
+	
+	private void paintTextInBoxComment(Graphics g,Rectangle2D.Double box, DrawBox textInBox) {
+		String OverLineText=textInBox.getInBoxText();
+		if (OverLineText!=null){
+			g.setColor(TEXT_COLOR);
+			g.setFont(new Font("TimesRoman", Font.PLAIN,(int) (Math.min(box.width,box.height)-4)));
+			int x=((int) box.x+1);
+			int y=((int) box.y)+((int) box.height-3);
+			g.drawString(OverLineText,  x,y);
+		}	
+	}
+	private void paintTextNearBoxComment(Graphics g,Rectangle2D.Double box, DrawBox textInBox) {
+		g.setColor(TEXT_COLOR);
+		FontMetrics m = getFontMetrics(getFont());
+		int x = (int) box.x + ARC_SIZE / 2;
+		int y = (int) box.y + m.getAscent()/2 + m.getLeading() + 1;
+		g.drawString(textInBox.text, x, y);
 
 	}
 }

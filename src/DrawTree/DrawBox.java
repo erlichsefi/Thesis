@@ -27,28 +27,65 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Extra;
-
-import org.abego.treelayout.NodeExtentProvider;
+package DrawTree;
 
 /**
- * A {@link NodeExtentProvider} for nodes of type {@link TextInBox}.
- * <p>
- * As one would expect this NodeExtentProvider returns the width and height as
- * specified with each TextInBox.
+ * Represents a text to be displayed in a box of a given size.
  * 
  * @author Udo Borkowski (ub@abego.org)
  */
-public class TextInBoxNodeExtentProvider implements
-		NodeExtentProvider<TextInBox> {
+public class DrawBox {
+	boolean choosen;
+	public String order;
+	public String text;
+	public String overLinetext;
+	public String why;
+	public String InboxText;
+	public final int height;
+	public final int width;
 
-	@Override
-	public double getWidth(TextInBox treeNode) {
-		return treeNode.width;
+	public DrawBox(boolean _choosen,String reason,String text,String _overLinetext,String _InboxText, int width, int height) {
+		this.text = text;
+		this.width = width;
+		this.height = height;
+		choosen=_choosen;
+		overLinetext=_overLinetext;
+		InboxText=_InboxText;
+		why=reason;
+	}
+	
+	public DrawBox(boolean _choosen,String _InboxText, int width, int height) {
+		this.text = "";
+		this.width = width;
+		this.height = height;
+		choosen=_choosen;
+		overLinetext="";
+		InboxText=_InboxText;
+		why="";
 	}
 
-	@Override
-	public double getHeight(TextInBox treeNode) {
-		return treeNode.height;
+	public void SetPref(String p1){
+		order=p1;
+	}
+	
+	
+	public String getOrder() {
+		return order;
+	}
+
+	
+
+	public String getWhy() {
+		return why;
+	}
+
+	public String getOverlineText() {
+		// TODO Auto-generated method stub
+		return overLinetext;
+	}
+
+	public String getInBoxText() {
+		// TODO Auto-generated method stub
+		return InboxText;
 	}
 }

@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import DrawTree.DecisionNode;
 import junit.framework.Assert;
 import tools.Agent;
-import tools.TNode;
 import tools.options;
 import tools.outcome;
 
@@ -61,7 +61,7 @@ public class Fullinfo extends Algo{
 
 	public static ArrayList<options> FindWantedOutcome(String[] out,Agent Agent,Agent StartingAgent,String WantedResult ){
 		ArrayList<options> op=new ArrayList<options>();
-		TNode tree=new TNode(StartingAgent.getAgentName(),"Start",out.length);
+		DecisionNode tree=new DecisionNode(StartingAgent.getAgentName(),"Start",out.length);
 		for (int k = 0; k < out.length; k++) {
 			Agent myAgnetCopt=new Agent(Agent);
 			Agent otherAgentCopy=new Agent(StartingAgent);
@@ -119,7 +119,7 @@ public class Fullinfo extends Algo{
 	 * @param FatherNode 
 	 * @return
 	 */
-	public static outcome FullInfoTurn(Agent AgentGottenOffer,Agent AgentSentOffer,String path,String offer, TNode FatherNode){
+	public static outcome FullInfoTurn(Agent AgentGottenOffer,Agent AgentSentOffer,String path,String offer, DecisionNode FatherNode){
 
 		//remove the offer that gotten
 		AgentSentOffer.RemoveOutcome(offer);
@@ -142,8 +142,8 @@ public class Fullinfo extends Algo{
 			}
 		}
 
-		TNode current=new TNode(AgentGottenOffer.getAgentName(),offer,AgentGottenOffer.NumberOfOfferLeft());
-		current.Addoption(new TNode(AgentGottenOffer.getAgentName(),offer) );
+		DecisionNode current=new DecisionNode(AgentGottenOffer.getAgentName(),offer,AgentGottenOffer.NumberOfOfferLeft());
+		current.AddTooption(new DecisionNode(AgentGottenOffer.getAgentName(),offer) );
 		//build all possible outcomes
 		outcome[] PossibleOut=new outcome[AgentGottenOffer.NumberOfOfferLeft()];
 		int j=0;
@@ -175,7 +175,7 @@ public class Fullinfo extends Algo{
 			}
 		}
 
-		FatherNode.Addoption(current);
+		FatherNode.AddTooption(current);
 		current.initselected(MyValueForOffer.getName());
 		return MyValueForOffer;
 	}
@@ -243,7 +243,7 @@ public class Fullinfo extends Algo{
 		outcome bestoutcome=null;
 		String startingOffer=null;
 
-		TNode tree=new TNode(p1.getAgentName(),"Start",out.length);
+		DecisionNode tree=new DecisionNode(p1.getAgentName(),"Start",out.length);
 		tree.setPreprence(p1.getAgentName(),p2.getAgentName(),p1.getOriginalPrefrence(),p2.getOriginalPrefrence());
 
 		for (int k = 0; k < out.length; k++) {

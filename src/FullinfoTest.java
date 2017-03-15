@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import DrawTree.DecisionTreePrinter;
 import Negotiation.Algo;
 import Negotiation.Fullinfo;
 import tools.Agent;
@@ -38,7 +39,7 @@ public class FullinfoTest {
 		Agent otherAgnet=new Agent("P1",per1);
 		Agent my=new Agent("P2",per2);
 		options o1=Fullinfo.FindBestByPrefernce(out,my,otherAgnet);
-		o1.getTree().print();
+		new DecisionTreePrinter(o1.getTree()).show();
  		System.out.println();
 
 
@@ -72,7 +73,7 @@ public class FullinfoTest {
 				Agent otherAgnet=new Agent("P1",per1);
 				Agent my=new Agent("P2",per2);
 				options o1=Fullinfo.FindBestByPrefernce(out,my,otherAgnet);
-				o1.getTree().print();
+				new DecisionTreePrinter(o1.getTree()).show();
 				otherAgnet=new Agent("P1",per1);
 				my=new Agent("P2",per2);
 				options o2=Fullinfo.FindBestByPrefernceTez(out,my,otherAgnet);

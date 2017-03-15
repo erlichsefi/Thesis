@@ -2,8 +2,10 @@ package tools;
 
 import java.util.ArrayList;
 
+import DrawTree.DecisionNode;
+
 public class options{
-	TNode tree;
+	DecisionNode tree;
 	String prefrence;
 	String startingOffer;
 	String resultOffer;
@@ -105,11 +107,11 @@ public class options{
 		return str.split(":").length;
 	}
 
-	public TNode getTree() {
+	public DecisionNode getTree() {
 		return tree;
 	}
 
-	public void setTree(TNode tree) {
+	public void setTree(DecisionNode tree) {
 		this.tree = tree;
 	}
 

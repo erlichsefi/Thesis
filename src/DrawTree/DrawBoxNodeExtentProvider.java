@@ -27,55 +27,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Extra;
+package DrawTree;
+
+import org.abego.treelayout.NodeExtentProvider;
 
 /**
- * Represents a text to be displayed in a box of a given size.
+ * A {@link NodeExtentProvider} for nodes of type {@link DrawBox}.
+ * <p>
+ * As one would expect this NodeExtentProvider returns the width and height as
+ * specified with each TextInBox.
  * 
  * @author Udo Borkowski (ub@abego.org)
  */
-public class TextInBox {
-	boolean choosen;
-	public String order;
-	public  String text;
-	public  String overLinetext;
-	public String why;
-	public String InboxText;
-	public final int height;
-	public final int width;
+public class DrawBoxNodeExtentProvider implements
+		NodeExtentProvider<DrawBox> {
 
-	public TextInBox(boolean _choosen,String reason,String text,String _overLinetext,String _InboxText, int width, int height) {
-		this.text = text;
-		this.width = width;
-		this.height = height;
-		choosen=_choosen;
-		overLinetext=_overLinetext;
-		InboxText=_InboxText;
-		why=reason;
+	@Override
+	public double getWidth(DrawBox treeNode) {
+		return treeNode.width;
 	}
 
-	public void SetPref(String p1){
-		order=p1;
-	}
-	
-	
-	public String getOrder() {
-		return order;
-	}
-
-	
-
-	public String getWhy() {
-		return why;
-	}
-
-	public String getOverlineText() {
-		// TODO Auto-generated method stub
-		return overLinetext;
-	}
-
-	public String getInBoxText() {
-		// TODO Auto-generated method stub
-		return InboxText;
+	@Override
+	public double getHeight(DrawBox treeNode) {
+		return treeNode.height;
 	}
 }

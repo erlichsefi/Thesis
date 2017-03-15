@@ -1,4 +1,4 @@
-package Extra;
+package DrawTree;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -15,7 +15,6 @@ public class ZoomAndPanListener implements MouseListener, MouseMotionListener, M
 	public static final int DEFAULT_MIN_ZOOM_LEVEL = -20;
 	public static final int DEFAULT_MAX_ZOOM_LEVEL = 10;
 	public static final double DEFAULT_ZOOM_MULTIPLICATION_FACTOR = 1.2;
-
 	private Component targetComponent;
 
 	private int zoomLevel = 0;
@@ -125,31 +124,6 @@ public class ZoomAndPanListener implements MouseListener, MouseMotionListener, M
 		inverse.transform(p1, p2);
 		return p2;
 	}
-
-	private void showMatrix(AffineTransform at) {
-		double[] matrix = new double[6];
-		at.getMatrix(matrix);  // { m00 m10 m01 m11 m02 m12 }
-		int[] loRow = {0, 0, 1};
-		for (int i = 0; i < 2; i++) {
-			System.out.print("[ ");
-			for (int j = i; j < matrix.length; j += 2) {
-				System.out.printf("%5.1f ", matrix[j]);
-			}
-			System.out.print("]\n");
-		}
-		System.out.print("[ ");
-		for (int i = 0; i < loRow.length; i++) {
-			System.out.printf("%3d   ", loRow);
-
-		}
-
-		System.out.print("]\n");
-
-		System.out.println("---------------------");
-
-	}
-
-
 
 
 
