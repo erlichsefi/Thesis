@@ -85,9 +85,9 @@ public class DecisionTreePrinter
 
 	
 	public static void main(String[] args) {
-		String[] out =new String[]{"o1","o2","o3","o4"};
-		Agent p1=new Agent("P1","o1<o2<o3<o4");
-		Agent p2=new Agent("P2","o4<o1<o3<o2");
+		String[] out =new String[]{"o1","o2","o3","o4","o5","o6"};
+		Agent p1=new Agent("P1","o1<o2<o3<o4<o6<o5");
+		Agent p2=new Agent("P2","o3<o2<o6<o5<o4<o1");
 		options o1=Fullinfo.FindBestByPrefernce(out,p2,p1);
 		new DecisionTreePrinter(o1.getTree()).show();
 	}

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import tools.outcome;
+
 
 
 
@@ -37,7 +39,30 @@ public class Algo {
 	}
 
 
+	public static ArrayList<ArrayList<String>> AllSubGroupsWithOutReturn(outcome[] superSet, int k) {
+		ArrayList<ArrayList<String>> res = new ArrayList<>();
+		getSubsets2(Arrays.asList(superSet), k, 0, new ArrayList<String>(), res);
+		return res;
+	}
 
+	private static void getSubsets2(List<outcome> superSet, int k, int idx, ArrayList<String> current,ArrayList<ArrayList<String>> solution) {
+		//successful stop clause
+		if (current.size() == k) {
+			solution.add(new ArrayList<String>(current));
+			return;
+		}
+		//unseccessful stop clause
+		if (idx == superSet.size()) return;
+		String x = superSet.get(idx).getName();
+		current.add(x);
+		//"guess" x is in the subset
+		getSubsets2(superSet, k, idx+1, current, solution);
+		current.remove(x);
+		//"guess" x is not in the subset
+		getSubsets2(superSet, k, idx+1, current, solution);
+	}
+
+	
 
 
 
@@ -194,5 +219,7 @@ public class Algo {
 	}
 
 
+	
+	
 
 }

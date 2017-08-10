@@ -35,7 +35,6 @@ public class NoInfo extends Algo{
 			else{
 				o=NoInfoOutCome(myAgnet,otherAgent);
 
-
 			}
 			if (o.getName().equals(offerAgentWhat)){
 				op.add(new options(prefrence,null,offerAgentWhat));
@@ -50,7 +49,6 @@ public class NoInfo extends Algo{
 	
 
 	public static outcome NoInfoOutCome(Agent startingagent,Agent otheragnet){
-		
 		boolean Dealstatus=false;
 		Agent offeringAgent=new Agent(startingagent);
 		Agent offeringWaiting=new Agent(otheragnet);
@@ -84,6 +82,17 @@ public class NoInfo extends Algo{
 		System.out.println();
 		for (int i = 0; i < stat.length; i++) {
 			System.out.print(stat[i]+"  ");
+		}
+
+	}
+	
+	public static void main(String[] args) {
+		String[] out={"o1","o2","o3","o4","o5","o6","o7"};
+		String per1="o1<o2<o3<o4<o5<o6<o7";
+		Agent p2=new Agent("P2",per1);
+		ArrayList<options> op=NoInfoGame(out,p2,false,"o1");
+		for (int i = 0; i < out.length; i++) {
+			System.out.println(op.get(i));
 		}
 
 	}

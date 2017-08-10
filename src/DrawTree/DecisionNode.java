@@ -103,6 +103,9 @@ public class DecisionNode{
 		return "TNode [player=" + playerName + ", offerGotten=" + offerGotten + ", status=" + selection +", resultFromThisTree=" + resultFromThisTree + ", options="
 				+ Arrays.toString(options) + "]";
 	}
+	public void setResult(String name) {
+		this.resultFromThisTree=name;
+	}
 
 
 

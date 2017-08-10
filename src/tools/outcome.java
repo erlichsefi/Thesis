@@ -8,6 +8,7 @@ public class outcome implements Comparable<outcome>{
 	double value;
 	int index;
 	ArrayList<String> pathToout;
+	boolean NOinter=false;
 	/**
 	 * @param name
 	 * @param value
@@ -43,7 +44,7 @@ public class outcome implements Comparable<outcome>{
 
 
 	public String toString() {
-		return "outcome [agentname="+agentname+", name=" + name + ", value=" + value + "]";
+		return name ;
 	}
 	public String getName() {
 		return name;
@@ -66,9 +67,11 @@ public class outcome implements Comparable<outcome>{
 	}
 
 
+	public boolean equals(Object o){
+		return ((outcome)o).name.equals(this.name);
+	}
 
-
-
+	
 	public void addPath(ArrayList<String> pathToout2) {
 		pathToout.addAll(pathToout2);
 		
@@ -103,6 +106,13 @@ public class outcome implements Comparable<outcome>{
 			}
 		}
 		return true;
+	}
+
+
+
+
+	public void NoInters() {
+		NOinter=true;		
 	}
 
 

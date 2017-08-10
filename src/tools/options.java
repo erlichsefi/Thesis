@@ -21,7 +21,7 @@ public class options{
 		this.resultOffer=_resultOffer;
 		path=new ArrayList<String>();
 	}
-	
+
 	/**
 	 * @param prefrence
 	 * @param startingOfer
@@ -34,7 +34,7 @@ public class options{
 		path=new ArrayList<String>();
 		path.add(_path);
 	}
-	
+
 
 	public options(String prefrence2, String startingOffer2, String name, ArrayList<String> pathToout) {
 		super();
@@ -62,7 +62,7 @@ public class options{
 	public String toString() {
 		return "options [prefrence=" + prefrence + ", startingOffer=" + startingOffer + ", resultOffer=" + resultOffer;
 	}
-	
+
 	public String getPaths(){
 		String ANS=" PATHS= \n";
 		for (int i = 0; i < path.size(); i++) {
@@ -70,8 +70,10 @@ public class options{
 		}
 		return ANS;
 	}
+	public ArrayList<String> getPathslist(){
+		return path;
+	}
 
-	
 	public String longestPaths() {
 		String l="";
 		for (int i = 0; i < path.size(); i++) {
@@ -80,19 +82,19 @@ public class options{
 			}
 		}
 		return l;
-		
+
 	}
-	
+
 	public String getOrder(String path){
 		String[] l=path.split(":");
 		String a="";
 		for (int i = 0; i < l.length; i++) {
 			if (!l[i].contains("accept"))
-			a=a+l[i].substring(l[i].length()-2,l[i].length())+":";
+				a=a+l[i].substring(l[i].length()-2,l[i].length())+":";
 		}
 		return a;
 	}
-	
+
 	public String GetPathSizedN(int numeberOfOffers){
 		for (int i = 0; i < path.size(); i++) {
 			if (path.get(i).split(":").length==(numeberOfOffers+1)){
@@ -117,7 +119,7 @@ public class options{
 
 	public void setPath(String string) {
 		path.add(string);
-		
+
 	}
 
 	public boolean IsAllPathsEndWith(String move){
@@ -128,7 +130,7 @@ public class options{
 		}
 		return true;
 	}
-	
+
 	public String getPathOf(String longestPaths) {
 		for (int i = 0; i < path.size(); i++) {
 			String order=getOrder(path.get(i));
@@ -142,17 +144,27 @@ public class options{
 	public void initPath(String p) {
 		path.clear();
 		path.add(p);
-		
+
 	}
 
 	public String getOrders() {
 		String ans="";
 		for (int i = 0; i < path.size(); i++) {
 			ans=ans+getOrder(path.get(i))+"\n";
-		
+
 		}
 		return ans;
 	}
-	
-	
+
+	public int NumberOfOffersTo(String outcome) {
+		int i=0;
+		for (DecisionNode node:tree.getOptions()) {
+			if (node != null && node.getResult().equals(outcome)){
+				i++;
+			}
+		}
+		return i;
+	}
+
+
 }

@@ -186,6 +186,8 @@ public class DrawBoxTreePane extends Canvas {
 				g.drawString(lines[i], 1, y);
 				y += m.getHeight();
 			}
+			g.drawString(parent.text, 1, y);
+
 		}
 	}
 	

@@ -40,6 +40,9 @@ public class AsimetricInfo extends Algo{
 				o=FindOrderOfOffersWhenKnownStarting(P1,P2,"");
 
 			}
+			if (!o.getName().equals("o7")){
+				System.out.println();
+			}
 			stat[indexOf(out,o.getName())]++;
 			op.add(new options(prefrence,null,o.getName(),o.getPathToout()));
 		}
@@ -136,7 +139,7 @@ public class AsimetricInfo extends Algo{
 	 * @param op
 	 * @param offerAgentWhat
 	 */
-	private static outcome FindOrderOfOffersWhenUnknownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
+	public static outcome FindOrderOfOffersWhenUnknownStarting(Agent KnowenAgnet,Agent otheragnet,String PastMove){
 
 		//take the other agent best offer
 		outcome OtherAgnetNextOnTheTable=otheragnet.RemoveBestOutcome();
@@ -249,7 +252,6 @@ public class AsimetricInfo extends Algo{
 		if (best==null || best.getValue()<other.getValue()){
 			return other;
 		}
-
 		return null;
 	}
 

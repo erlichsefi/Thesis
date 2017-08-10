@@ -286,6 +286,53 @@ public class Agent {
 		return O.size();
 	}
 
+	public outcome copyOutcomeIn(int n) {
+		
+		return this.copyOutcome(pre[n-1]);
+	}
+
+	public outcome[] copyOutcomeInRange(int s, int e) {
+		outcome[] an=new outcome[O.size()];
+		int i=0;
+		for (outcome value : O.values()) {
+			an[i++]=value;
+		}
+		Arrays.sort(an, new Comparator<outcome>(){
+
+			@Override
+			public int compare(outcome o1, outcome o2) {
+				if (o1.value<o2.value) return -1;
+				else if (o1.value>o2.value) return 1;
+				return 0;
+			}
+			
+		});
+		return Arrays.copyOfRange(an,s-1,e);
+	}
+
+	
+	public outcome[] AllWorstFromWorstIn(outcome[] joinGoals) {
+		outcome worst=null;
+		String key=null;
+		for ( outcome entry : joinGoals){
+			if (worst==null){
+				worst=entry;
+				key=entry.getName();
+			}
+			else if (entry.getValue()<worst.value){
+				worst=entry;
+				key=entry.getName();
+			}
+		}
+		ArrayList<outcome> w=new ArrayList<outcome>();
+		for (Entry<String, outcome> entry : O.entrySet()){
+			if (entry.getValue().getValue()<O.get(key).getValue()){
+				w.add(new outcome(entry.getValue()));
+			}
+		}
+		return w.toArray(new outcome[0]);
+	}
+
 
 
 
