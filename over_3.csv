@@ -1,0 +1,41 @@
+ o3<o2<o1Vs o1<o2<o3 
+offers:,o1,o2,o3,
+min-max vs min-max, [o2],[o2],X,
+min-max-plus vs min-max,[o2],X,X,
+min-max vs min-max-plus ,[o2],[o2],X,
+min-max-plus vs min-max-plus,[o2],X,X,
+******,**********,************,**********
+ o3<o2<o1Vs o1<o3<o2 
+offers:,o1,o2,o3,
+min-max vs min-max, [o2],[o2],X,
+min-max-plus vs min-max,[o2],X,X,
+min-max vs min-max-plus ,[o2],[o2],X,
+min-max-plus vs min-max-plus,[o2],X,X,
+******,**********,************,**********
+ o3<o2<o1Vs o2<o1<o3 
+offers:,o1,o2,o3,
+min-max vs min-max, [o1],[o1],X,
+min-max-plus vs min-max,[o1],X,X,
+min-max vs min-max-plus ,[o1],[o1],X,
+min-max-plus vs min-max-plus,[o1],X,X,
+******,**********,************,**********
+ o3<o2<o1Vs o2<o3<o1 
+offers:,o1,o2,o3,
+min-max vs min-max, [o1],[o1],X,
+min-max-plus vs min-max,[o1],X,X,
+min-max vs min-max-plus ,[o1],[o1],X,
+min-max-plus vs min-max-plus,[o1],X,X,
+******,**********,************,**********
+ o3<o2<o1Vs o3<o1<o2 
+offers:,o1,o2,o3,
+min-max vs min-max, [o1],[o2],X,
+min-max-plus vs min-max,[o1],X,X,
+min-max vs min-max-plus ,[o1],[o2],X,
+min-max-plus vs min-max-plus,[o1],X,X,
+******,**********,************,**********
+ o3<o2<o1Vs o3<o2<o1 
+offers:,o1,o2,o3,
+min-max vs min-max, [o1],[o2],X,
+min-max-plus vs min-max,[o1],X,X,
+min-max vs min-max-plus ,[o1],[o2],X,
+min-max-plus vs min-max-plus,[o1],X,X,
