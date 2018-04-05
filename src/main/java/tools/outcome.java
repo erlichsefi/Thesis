@@ -92,7 +92,6 @@ public class outcome implements Comparable<outcome>{
 	
 
 	public String getPlayer() {
-		// TODO Auto-generated method stub
 		return agentname;
 	}
 

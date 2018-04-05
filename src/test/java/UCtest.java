@@ -131,7 +131,6 @@ public class UCtest {
         if(!Arrays.equals(true_count,pred_count)){
             System.out.println(Arrays.toString(true_count));
             System.out.println(Arrays.toString(pred_count));
-
             assertTrue(false);
         }
     }

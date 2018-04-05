@@ -1,4 +1,8 @@
+import static Negotiation.Algo.AllPossiblePrefrence;
+import static Negotiation.Fullinfo.allsubsets;
+import static Negotiation.Fullinfo.allsubsetsWithRep;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import OtherPapers.UnanimityCompromise;
 import org.testng.annotations.Test;
@@ -6,6 +10,7 @@ import org.testng.annotations.Test;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,10 +27,12 @@ import Negotiation.Fullinfo;
 import tools.*;
 
 public class FullinfoTest {
-    int numberOfRuns=100;
-    int MaxNumberOfPrefrence=9;
-    int minNumberOfPrefrence=9;
+    int numberOfRuns=1000;
+    int MaxNumberOfPrefrence=3;
+    int minNumberOfPrefrence=3;
     boolean Random=true;
+    static int[] counts;
+
 
     Random r=new Random(System.currentTimeMillis());
 
@@ -83,6 +90,372 @@ public class FullinfoTest {
         }
         System.out.println();
     }
+
+    /**
+     * Check if for a two parties with a weak order
+     * each party can correlate with the other party strict party.
+     * and that result will be the best from all possible order over the weak
+     */
+    @Test
+    public  void WeakCorrelationTest() {
+        boolean Random = true;
+        String[] out;
+        String per1;
+        String per2;
+        for (int i = 0; i < numberOfRuns; i++) {
+            if (Random) {
+                int RandomResult = r.nextInt(MaxNumberOfPrefrence-minNumberOfPrefrence+1) ;
+                out = Algo.BuildOutComeArray(RandomResult + minNumberOfPrefrence);
+                per1 = Algo.randomPrefrenceOverWithWeak(out);
+                per2 = Algo.randomPrefrenceOverWithWeak(out);
+            } else {
+                out = new String[]{"o1", "o2", "o3"};
+                per1 = "o2~o1~o4<o3";
+                per2 = "o1<o2<o3<o4";
+            }
+            if (per1 != null && per2 != null) {
+
+                System.out.println("Original:");
+                System.out.println(" P1 " + per1);
+                System.out.println(" P2 " + per2);
+
+                String per1_fixed = FixWeakMethod(per1, per2,out);
+                String per2_fixed = FixWeakMethod(per2, per1_fixed,out);
+                System.out.println("\n After we fixed : ");
+                System.out.println(" P1 " + per1_fixed);
+                System.out.println(" P2 " + per2_fixed);
+
+
+                Agent otherAgnet = new Agent("P1", per1_fixed);
+                String algo_result_ower_fix = Fullinfo.FindBestByPrefernceTez(out, new Agent("P2", per2_fixed), otherAgnet).getResult();
+
+                System.out.println(" result is : " + algo_result_ower_fix);
+                System.out.println("\n Check all possible fix : ");
+                int fix=0;
+                for (String fixed_p1 : PoossibleFix(per1)) {
+                    for (String fixed_p2 : PoossibleFix(per2)) {
+
+                        System.out.println("\n # "+fix);
+                        System.out.println(" P1 " + fixed_p1);
+                        System.out.println(" P2 " + fixed_p2);
+
+                        otherAgnet = new Agent("P1", fixed_p1);
+                        String algo_result = Fullinfo.FindBestByPrefernceTez(out, new Agent("P2", fixed_p2), otherAgnet).getResult();
+                        System.out.println(" result is :  " + algo_result);
+
+                        Agent TestAgnet = new Agent("P1", per1);
+
+                        if (TestAgnet.CopyOutcome(algo_result).getValue() <= TestAgnet.CopyOutcome(algo_result_ower_fix).getValue()) {
+                            //System.out.println("pass:" + (i + 1) + "/" + numberOfRuns);
+
+                        } else {
+                            fail();
+
+                        }
+                    }
+                }
+                System.out.println(" \n pass:" + (i + 1) + "/" + numberOfRuns);
+                System.out.println("*****************************************");
+
+            }
+        }
+    }
+
+    /**
+     * the method that fix weak order
+     * @param to_fix the order to fix
+     * @param per2
+     * @param out
+     * @return
+     */
+    private String FixWeakMethod(String to_fix, String per2,String[] out) {
+        String[] per1_result=new String[out.length];
+        int i=0;
+
+        for (String s : to_fix.split("<")) {
+            String[] weak = s.split("~");
+            if (weak.length==1){
+                per1_result[i]=weak[0];
+                i++;
+            }
+            else{
+                Agent other=new Agent("r",per2);
+                ArrayList<String> re=new ArrayList<>(Arrays.asList(weak));
+                for(int j=0;j<weak.length;j++){
+                    per1_result[i+j]=re.get(0);
+                    for (String a:re){
+                        if (other.CopyOutcome(per1_result[i+j]).getValue()>other.CopyOutcome(a).getValue()){
+                            per1_result[i+j]=a;
+                        }
+                    }
+                    re.remove(per1_result[i+j]);
+
+                }
+
+                i=i+weak.length;
+
+            }
+
+        }
+        String final_r=per1_result[0];
+        for (int j=1;j<per1_result.length;j++){
+            final_r=final_r+"<"+per1_result[j];
+        }
+        return final_r;
+
+    }
+
+    private ArrayList<String> PoossibleFix(String per1) {
+        ArrayList<String> result = new ArrayList<String>();
+        for (String s : per1.split("<")) {
+            String[] weak = s.split("~");
+            ArrayList<String> pos = AllPossiblePrefrence(weak);
+            ArrayList<String> new_result = new ArrayList<String>();
+            if (!result.isEmpty()) {
+                for (int i = 0; i < result.size(); i++) {
+                    for (String more : pos) {
+                        new_result.add(result.get(i) + "<" + more);
+                    }
+                }
+            }
+            else{
+                for (String more : pos) {
+                    new_result.add(more);
+                }
+            }
+            result=new_result;
+        }
+        return result;
+    }
+
+    /**
+     * test if exist a party that the most outcome prefreed is the same as the
+     * first party most prefred it will be the result as they will coprate
+     */
+    @Test
+    public  void Nplayers() {
+        String[] out =new String[]{"o1","o2","o3","o4"};
+        int limittonumberofplayer=3;
+        ArrayList<String> pref= Algo.AllPossiblePrefrence(out);
+        List<List<String>> allSubs= allsubsetsWithRep(pref,limittonumberofplayer);
+        int j=0;
+        for (List<String> other_players:allSubs){
+            System.out.println(j++ + "/" + allSubs.size());
+
+            ArrayList<Agent> a=new ArrayList<>();
+            String per1=other_players.get(0);
+            for (int i=1;i<other_players.size();i++){
+                a.add(new Agent("P"+i,other_players.get(i)));
+            }
+
+            options o1 = Fullinfo.FindBestByPrefernce(out, a, new Agent("P1", per1));
+
+            int depth=1;
+            boolean resultFound=false;
+            while (!resultFound && depth<out.length) {
+                System.out.println("depth= "+depth);
+                int maxIndex=getMaxIndex(other_players,out,depth);
+
+                if (maxIndex==-1){ //as tie
+                    depth++;
+                    continue;
+                }
+                String most = out[maxIndex];
+                int helf = (int) Math.ceil(limittonumberofplayer / 2.0);
+                if (counts[maxIndex] >= helf) {
+                    assertTrue("\n" + Arrays.toString(counts) + "\n most=" + most + "\n r:" + o1.getResult() + "\n other:" + other_players, o1.getResult().equals(most));
+                    resultFound=true;
+
+                }
+                depth++;
+            }
+
+            // tie until the end role
+            if (!resultFound){
+                Agent t=new Agent("T",per1);
+                t.RemoveBestOutcome();
+                String o=t.RemoveBestOutcome().getName();
+                if (! o1.getResult().equals(o)){
+                    System.out.println();
+                }
+                // assertTrue("\n" + Arrays.toString(counts) + "\n role =" + o + "\n true role:" + o1.getResult() + "\n other:" + other_players, o1.getResult().equals(o));
+
+                System.out.println("tie until the end:");
+                System.out.println("**********\n" + Arrays.toString(counts) + "\n r:" + o1.getResult() + "\n other:" + other_players+"\n ************* ");
+
+            }
+
+        }
+
+
+
+
+    }
+
+    public int getMaxIndex(List<String> other_players,String[] out,int depth){
+        ArrayList<Integer> maxIndex=new ArrayList<>();
+        maxIndex.add(0);
+        counts=new int[out.length];
+        // TODO: even if player not offering affect the result
+        for (int i=0;i<other_players.size();i++){
+            Agent ac=new Agent("temp",other_players.get(i));
+            for (int k=0;k<depth;k++){
+                int in=Algo.indexOf(out,ac.RemoveBestOutcome().getName());
+                counts[in]++;
+                if (counts[maxIndex.get(0)]==counts[in]){
+                    maxIndex.add(in);
+                }else if (counts[maxIndex.get(0)]<counts[in]){
+                    maxIndex=new ArrayList<>();
+                    maxIndex.add(in);
+                }
+            }
+
+        }
+        if (maxIndex.size()==1){
+            return maxIndex.get(0);
+        }
+        else{
+            int max=maxIndex.get(0);
+            Agent a=new Agent("T",other_players.get(counts[max]-1));
+
+            for (Integer i:maxIndex){
+                if (a.CopyOutcome(out[i]).getValue()>a.CopyOutcome(out[max]).getValue()){
+                    max=i;
+                }
+            }
+            return max;
+        }
+    }
+
+    @Test
+    public  void NplayersRandomTez() {
+        boolean Random=false;
+        String[] out;
+        String per1;
+        ArrayList<String> per2=new ArrayList<>();
+        for (int i = 0; i < numberOfRuns; i++) {
+            if (Random) {
+                int RandomResult = r.nextInt(MaxNumberOfPrefrence-minNumberOfPrefrence+1) ;
+                out = Algo.BuildOutComeArray(RandomResult + minNumberOfPrefrence);
+                per1 = Algo.randomPrefrenceOver(out);
+                int players=2;
+                per2=new ArrayList<>();
+                for (int j = 0; j < players; j++) { per2.add(Algo.randomPrefrenceOver(out)); }
+            }
+            else{
+                out =new String[]{"o1","o2","o3"};
+                per1="o2<o1<o3";
+                per2=new ArrayList<>();
+                per2.add("o1<o3<o2");
+                per2.add("o3<o2<o1");
+            }
+            if (per1!=null && per2!=null ){
+                System.out.println("P2 "+per2);
+                System.out.println("P1 "+per1);
+
+
+                Agent otherAgnet=new Agent("P1",per1);
+
+                ArrayList<Agent> other_players=new ArrayList<>();
+                int index=2;
+                for(String P:per2){
+                    other_players.add(new Agent("P"+index,P));
+                    index++;
+                }
+                options o1=Fullinfo.FindBestByPrefernce(out,other_players,otherAgnet);
+                otherAgnet=new Agent("P1",per1);
+                options o2=Fullinfo.FindBestByPrefernceTezNplayer(new ArrayList<>(Arrays.asList(out)),other_players,otherAgnet);
+                System.out.println(o1.getPaths());
+
+                if(!o1.getResult().equals(o2.getResult())){
+                    System.out.println("real: "+o1.getResult());
+                    System.out.println("my : "+o2.getResult());
+                    assert(false);
+                }
+                else{
+                    System.out.println("pass:"+(i+1)+"/"+numberOfRuns);
+                }
+
+                System.out.println("******************");
+            }
+        }
+        System.out.println();
+    }
+
+    /**
+     * test if a party is better off starting or being in different position.
+     */
+    @Test
+    public  void NplayersBestLocationInGame() {
+        boolean Random=true;
+        String[] out;
+        String my;
+        ArrayList<String> order=new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            if (Random){
+                int RandomResult = r.nextInt(MaxNumberOfPrefrence-minNumberOfPrefrence+1) ;
+                out = Algo.BuildOutComeArray(RandomResult + minNumberOfPrefrence);
+                my=Algo.randomPrefrenceOver(out);
+                int players=2;
+                order=new ArrayList<>();
+                for (int j = 0; j < players; j++) { order.add(Algo.randomPrefrenceOver(out)); }
+            }
+            else{
+                out =new String[]{"o1","o2","o3"};
+                my="o1<o2<o3";
+                order=new ArrayList<>();
+                order.add("o1<o2<o3");
+                order.add("o2<o3<o1");
+            }
+
+
+            System.out.println("my order is "+my);
+            System.out.println("orders are "+order);
+
+            order.add(0,my);
+            Agent my_a=new Agent("temp",my);
+            ArrayList<Integer> maxloc=new ArrayList<>();
+            String Maxoutcome=null;
+            for (int shift=0; shift<order.size();shift++) {
+                // building the agents
+                Agent otherAgnet = new Agent("P1", order.get(0));
+
+                ArrayList<Agent> other_players = new ArrayList<>();
+                int index = 2;
+                for (int others_start=1; others_start<order.size();others_start++) {
+                    other_players.add(new Agent("P" + index, order.get(others_start)));
+                    index++;
+                }
+                options o1 = Fullinfo.FindBestByPrefernce(out, other_players, otherAgnet);
+                System.out.println(" if order is  "+order+" result with "+o1.getResult());
+
+                if (Maxoutcome==null){
+                    Maxoutcome=o1.getResult();
+                    maxloc.add(shift);
+                }
+                else if (my_a.CopyOutcome(Maxoutcome).getValue()<my_a.CopyOutcome(o1.getResult()).getValue()){
+                    Maxoutcome=o1.getResult();
+                    maxloc=new ArrayList<>();
+                    maxloc.add(shift);
+                } else if (my_a.CopyOutcome(Maxoutcome).getValue()==my_a.CopyOutcome(o1.getResult()).getValue()){
+                    Maxoutcome=o1.getResult();
+                    maxloc.add(shift);
+                }
+
+                order.add(0,order.remove(order.size()-1));
+            }
+            if (maxloc.size()==1) {
+                assertTrue(!maxloc.contains(2));
+            }
+            System.out.println("******************");
+            System.out.println(" max location = "+maxloc);
+            System.out.println("max result = "+Maxoutcome);
+            System.out.println("******************");
+        }
+
+        System.out.println();
+    }
+
 
     /**
      * this junit suposse to show the new Path to the equilibrium
@@ -413,7 +786,7 @@ public class FullinfoTest {
 
                 otherAgnet=new Agent("P1",per1);
 
-                 a=new ArrayList<>();
+                a=new ArrayList<>();
                 my=new Agent("P2",per2);
                 a.add(my);
                 options _o2=Fullinfo.FindBestByPrefernce(out,a,otherAgnet);
@@ -689,16 +1062,20 @@ public class FullinfoTest {
     /**
      * a single round of full info negotiation when p1 is starting
      */
-  //  @Test
+    //   @Test
     public  void SingleTestFullInfo() {
-        String[] out ={"o1","o2","o3","o4","o5"};
-        String per2="o1<o3<o2<o4<o5";
-        String per1="o2<o3<o1<o5<o4";
+        String[] out ={"o1","o2","o3","o4"};
+        String per2="o3<o2<o1<o4";
+        String per1="o2<o1<o4<o3";
+        String per3="o4<o3<o1<o2";
+
         Agent P1=new Agent("p1",per1);
         ArrayList<Agent> a=new ArrayList<>();
         a.add(new Agent("p2",per2));
-        System.out.println(Fullinfo.FindBestByPrefernce(out,a,P1));
-        System.out.println();
+        a.add(new Agent("p3",per3));
+        options o1=Fullinfo.FindBestByPrefernce(out,a,P1);
+        System.out.println(o1.getResult());
+        System.out.println(o1.getPaths());
     }
 
     /**
@@ -831,7 +1208,7 @@ public class FullinfoTest {
      *
      * RESULT: THE CLAIM IS INCORRECT.
      */
-  //  @Test
+    //  @Test
     public  void OfferJGlowerThenEQresultInEq() {
         boolean otheragentstarts=false;
         String[] out ={"o1","o2","o3","o4","o5","o6","o7","o8","o9"};
@@ -1206,6 +1583,9 @@ public class FullinfoTest {
 
 
     }
+
+
+
 
 
 }

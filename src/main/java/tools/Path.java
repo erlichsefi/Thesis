@@ -18,6 +18,8 @@ public class Path {
     }
 
 
+
+
     public int RejactAndOffer(String outcome, String player){
         CorePath.add(outcome);
         desciption.add(player +" reject and  offer ");
@@ -38,6 +40,8 @@ public class Path {
     public void Accept(String player,String reson){
         desciption.add(player + " accept "+" because "+reson);
     }
+
+
 
 
     public int size() {
@@ -68,4 +72,7 @@ public class Path {
 
     }
 
+    public String offerNumber(int i) {
+       return CorePath.get(i);
+    }
 }

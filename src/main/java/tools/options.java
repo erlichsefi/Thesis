@@ -38,7 +38,16 @@ public class options{
 		path=new ArrayList<Path>(pathToout);
 	}
 
-	public String getResult() {
+    public options(options o1) {
+		if (o1==null) return;
+    	this.path = new ArrayList<>(o1.path);
+    	this.prefrence=o1.prefrence;
+    	this.resultOffer=o1.resultOffer;
+    	this.tree=new DecisionNode(o1.tree);
+    	this.startingOffer=o1.startingOffer;
+	}
+
+    public String getResult() {
 		return resultOffer;
 	}
 	public String getStartingOffer() {
@@ -89,6 +98,7 @@ public class options{
 		return l;
 
 	}
+
 
 	public int ShortestPathLength() {
 		Path l=new Path(path.get(0));
@@ -202,5 +212,9 @@ public class options{
 
 		}
 		return false;
+	}
+
+	public Path firstPath() {
+		return this.path.get(0);
 	}
 }

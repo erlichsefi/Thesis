@@ -63,34 +63,7 @@ public class Algo {
 		getSubsets2(superSet, k, idx+1, current, solution);
 	}
 
-	
 
-
-
-	//	public static ArrayList<String[]> AllSubGroupsWithOutReturn(String[] out,int k){
-	//		ArrayList<String> out2=new ArrayList<String>();
-	//		for (int i = 0; i < out.length; i++) {
-	//			out2.add(out[i]);
-	//		}
-	//		ArrayList<String[]> result=new ArrayList<String[]>();
-	//		ArrayList<String> tempout=new ArrayList<String>(Arrays.asList(out));
-	//		AllPossibleSubGroups(tempout,result, k,0,new String[k]);
-	//		return result;
-	//	}
-	//
-	//	private static void AllPossibleSubGroups(ArrayList<String> out,ArrayList<String[]> result,int k,int j,String[] pre){
-	//		if (j<k){
-	//			ArrayList<String> tempout=new ArrayList<String>(out);
-	//			while (!tempout.isEmpty()) {
-	//				pre[j]=tempout.remove(0);
-	//				AllPossibleSubGroups(tempout,result, k,j+1,pre);
-	//			}
-	//		}
-	//		else{
-	//			result.add(Arrays.copyOf(pre, pre.length));
-	//		}
-	//	}
-	//
 	public static ArrayList<String> AllPossiblePrefrence(String[] out){
 		ArrayList<String> out2=new ArrayList<String>();
 		for (int i = 0; i < out.length; i++) {
@@ -128,6 +101,32 @@ public class Algo {
 			}
 			else{
 				result=result+"<"+out2.remove(random_index);
+			}
+		}
+		return result;
+
+	}
+
+	public static String randomPrefrenceOverWithWeak(String[] out){
+		ArrayList<String> out2 = new ArrayList<String>(Arrays.asList(out));
+		String result=null;
+		Random Eelemt = new Random();
+		Random relation = new Random();
+
+		while (!out2.isEmpty()){
+			int random_index = Eelemt.nextInt(out2.size());
+			if (result==null){
+				result=out2.remove(random_index);
+			}
+			else{
+				double strict=relation.nextDouble();
+				if (strict>0.5) {
+					result = result + "<" + out2.remove(random_index);
+				}
+				else{
+					result = result + "~" + out2.remove(random_index);
+
+				}
 			}
 		}
 		return result;

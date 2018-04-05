@@ -1,9 +1,7 @@
 package OtherPapers;
 
 import Negotiation.Fullinfo;
-import tools.Agent;
-import tools.options;
-import tools.outcome;
+import tools.*;
 
 import java.util.*;
 
@@ -72,23 +70,16 @@ public class UnanimityCompromise {
 
     public static Set<String> UcSize1WinningPrefrence(String[] out,Agent other,String goal){
 
-        ArrayList<String> above_other_outcome=new ArrayList<>();
-        ArrayList<String> under_other_outcome=new ArrayList<>(Arrays.asList(out));
-        for (outcome o: other.OutComesBeterThen(goal)){
-            above_other_outcome.add(o.getName());
-            under_other_outcome.remove(o.getName());
-        }
-
-
+        //finding the outcomes that preferd over the goal
+        int under_include_other_outcome=out.length-other.OutComesBeterThen(goal).size();
 
         // THE GOAL IS IN THE LOWERS - STOP
         Set<String> all=new HashSet<>();
-        if (under_other_outcome.size()<=Fullinfo.lowersSize(out.length,true)){
+        if (under_include_other_outcome<=Fullinfo.lowersSize(out.length,true)){
             return all;
         }
-
-        for (int rc_index_stop=Fullinfo.lowersSize(out.length,false); rc_index_stop<=under_other_outcome.size();rc_index_stop++) {
-            // System.out.println("index= "+rc_index_stop);
+        //running on all location rc will stop ( i = below the goal +goal)
+        for (int rc_index_stop=Fullinfo.lowersSize(out.length,false); rc_index_stop<=under_include_other_outcome;rc_index_stop++) {
 
             ArrayList<String> below_other_loc_name = new ArrayList<>();
             for (outcome o : other.CopyNworst(rc_index_stop-1)) {
@@ -104,12 +95,8 @@ public class UnanimityCompromise {
                 String[] sub = Fullinfo.substract(out, set_above_array);
                 sub = Fullinfo.substract(sub,set_above_array);
 
-
-
                 List<String> allPossiblePrefrenceAbove = Fullinfo.AllPossiblePrefrence(set_above_array);
                 List<String> allPossiblePrefrenceUnder = Fullinfo.AllPossiblePrefrence(sub);
-                //System.out.println("above= "+Arrays.toString(set_above_array));
-                //System.out.println("under= "+Arrays.toString(sub));
 
                 for (int i=0; i< allPossiblePrefrenceAbove.size();i++) {
                     for (int j=0; j<allPossiblePrefrenceUnder.size();j++  ) {
@@ -120,7 +107,6 @@ public class UnanimityCompromise {
 
             }
         }
-
         return all;
     }
 
@@ -130,22 +116,15 @@ public class UnanimityCompromise {
 
 
     public static Set<String> UcSize2WinningPrefrence(String[] out,Agent other,String goal,boolean otherStarting) {
-
-        ArrayList<String> above_other_outcome = new ArrayList<>();
-        ArrayList<String> under_other_outcome = new ArrayList<>(Arrays.asList(out));
-        for (outcome o : other.OutComesBeterThen(goal)) {
-            above_other_outcome.add(o.getName());
-            under_other_outcome.remove(o.getName());
-        }
-
+        int under_other_outcome=out.length-other.OutComesBeterThen(goal).size();
 
         // THE GOAL IS IN THE LOWERS - STOP
         Set<String> all = new HashSet<>();
-        if (under_other_outcome.size() <= Fullinfo.lowersSize(out.length, otherStarting)) {
+        if (under_other_outcome <= Fullinfo.lowersSize(out.length, otherStarting)) {
             return all;
         }
         // must be at least two steps of a tie, that's why stop when -1
-        for (int rc_loc_stop = Fullinfo.lowersSize(out.length, !otherStarting); rc_loc_stop <= under_other_outcome.size() ; rc_loc_stop++) {
+        for (int rc_loc_stop = Fullinfo.lowersSize(out.length, !otherStarting); rc_loc_stop <= under_other_outcome ; rc_loc_stop++) {
             int numer_of_outcomes_above_my_goal = out.length - rc_loc_stop ;// -1 for adding the goal
 
             ArrayList<String> below_other_loc_name = new ArrayList<>();
@@ -189,18 +168,11 @@ public class UnanimityCompromise {
 
                     List<String> allPossiblePrefrenceAbove = Fullinfo.AllPossiblePrefrence(set_above_array);
                     List<String> allPossiblePrefrenceUnder = Fullinfo.AllPossiblePrefrence(set_below);
-
-                    System.out.println("**");
                     for (int i = 0; i < allPossiblePrefrenceAbove.size(); i++) {
                         for (int j = 0; j < allPossiblePrefrenceUnder.size(); j++) {
                             all.add(allPossiblePrefrenceUnder.get(j) + "<" + goal + "<" + allPossiblePrefrenceAbove.get(i));
-                            System.out.println(allPossiblePrefrenceUnder.get(j) + "<" + goal + "<" + allPossiblePrefrenceAbove.get(i));
-                            if ("o5<o2<o4<o3<o1".equals(allPossiblePrefrenceUnder.get(j) + "<" + goal + "<" + allPossiblePrefrenceAbove.get(i))){
-                                System.out.println();
-                            }
                         }
                     }
-                    System.out.println("**");
                 }
             }
             else{
@@ -208,8 +180,6 @@ public class UnanimityCompromise {
                     if (tobetie.equals(goal)){
                         continue;
                     }
-//                    ArrayList<String> above_other_loc_C = new ArrayList<>(above_other_loc);
-//                    above_other_loc_C.remove(tobetie);
 
                     List<Set<String>> allsubset = Fullinfo.allsubsets(below_other_loc_name, numer_of_outcomes_above_my_goal-1);
 
@@ -241,15 +211,11 @@ public class UnanimityCompromise {
                         List<String> allPossiblePrefrenceAbove = Fullinfo.AllPossiblePrefrence(set_above_array);
                         List<String> allPossiblePrefrenceUnder = Fullinfo.AllPossiblePrefrence(set_below);
 
-                        System.out.println("**+"+tobetie);
                         for (int i = 0; i < allPossiblePrefrenceAbove.size(); i++) {
                             for (int j = 0; j < allPossiblePrefrenceUnder.size(); j++) {
                                 all.add(allPossiblePrefrenceUnder.get(j) + "<" + tobetie + "<" + allPossiblePrefrenceAbove.get(i));
-                                System.out.println(allPossiblePrefrenceUnder.get(j) + "<" + tobetie + "<" + allPossiblePrefrenceAbove.get(i));
-
                             }
                         }
-                        System.out.println("**+");
                     }
 
                 }
@@ -424,8 +390,8 @@ public class UnanimityCompromise {
             Agent P2 = new Agent("p1", per2);
 
             // get number of outcomes the removed in the intersection
-            String InterRemoved = Fullinfo.RemoveIntesection(out, new Agent(P2), new Agent(P1), "");
-            int intsize = InterRemoved.split("o", -1).length - 1;
+            Path InterRemoved = Fullinfo.RemoveIntesection(out, new Agent(P2), new Agent(P1), new AlgoPath());
+            int intsize = InterRemoved.size();
 
             //get the equilibrium
             options eqP1Starts = Fullinfo.FindBestByPrefernceTez(out, new Agent(P2), new Agent(P1));

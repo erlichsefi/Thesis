@@ -9,6 +9,7 @@ import java.util.Set;
 
 public interface GetResltsStrategy {
 
-
     public Set<String> NoInfoTurn(Agent reciveing, Agent sending, GetResltsStrategy sendingSt, outcome offer, String path) ;
+
+
 }
