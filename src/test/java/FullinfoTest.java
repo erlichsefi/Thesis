@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import OtherPapers.UnanimityCompromise;
+import com.sun.org.apache.xml.internal.resolver.readers.TR9401CatalogReader;
 import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
@@ -329,7 +330,7 @@ public class FullinfoTest {
 
     @Test
     public  void NplayersRandomTez() {
-        boolean Random=false;
+        boolean Random= true;
         String[] out;
         String per1;
         ArrayList<String> per2=new ArrayList<>();
@@ -344,10 +345,10 @@ public class FullinfoTest {
             }
             else{
                 out =new String[]{"o1","o2","o3"};
-                per1="o2<o1<o3";
+                per1="o2<o3<o1";
                 per2=new ArrayList<>();
                 per2.add("o1<o3<o2");
-                per2.add("o3<o2<o1");
+                per2.add("o3<o1<o2");
             }
             if (per1!=null && per2!=null ){
                 System.out.println("P2 "+per2);

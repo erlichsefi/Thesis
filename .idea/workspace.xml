@@ -2,42 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bec07e3-9887-4d3d-9113-43f0f4406a53" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/grouplib.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tools/AlgoPath.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/tools/AgentTest.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/Teza.iml" afterPath="$PROJECT_DIR$/.idea/Teza.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_64.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_0_0_RC2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_0_0_RC2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_0_0_RC1.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_testng_testng_6_11.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_17.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DrawTree/DecisionNode.java" afterPath="$PROJECT_DIR$/src/main/java/DrawTree/DecisionNode.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Negotiation/Algo.java" afterPath="$PROJECT_DIR$/src/main/java/Negotiation/Algo.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java" afterPath="$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Negotiation/GetResltsStrategy.java" afterPath="$PROJECT_DIR$/src/main/java/Negotiation/GetResltsStrategy.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/OtherPapers/UnanimityCompromise.java" afterPath="$PROJECT_DIR$/src/main/java/OtherPapers/UnanimityCompromise.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Agent.java" afterPath="$PROJECT_DIR$/src/main/java/tools/Agent.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Path.java" afterPath="$PROJECT_DIR$/src/main/java/tools/Path.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/dissagrement.java" afterPath="$PROJECT_DIR$/src/main/java/tools/Disagreement.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/options.java" afterPath="$PROJECT_DIR$/src/main/java/tools/options.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/outcome.java" afterPath="$PROJECT_DIR$/src/main/java/tools/outcome.java" />
       <change beforePath="$PROJECT_DIR$/src/test/java/FullinfoTest.java" afterPath="$PROJECT_DIR$/src/test/java/FullinfoTest.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UCtest.java" afterPath="$PROJECT_DIR$/src/test/java/UCtest.java" />
-      <change beforePath="$PROJECT_DIR$/target/classes/DrawTree/DecisionNode.class" afterPath="$PROJECT_DIR$/target/classes/DrawTree/DecisionNode.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Negotiation/Algo.class" afterPath="$PROJECT_DIR$/target/classes/Negotiation/Algo.class" />
       <change beforePath="$PROJECT_DIR$/target/classes/Negotiation/Fullinfo.class" afterPath="$PROJECT_DIR$/target/classes/Negotiation/Fullinfo.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/OtherPapers/UnanimityCompromise.class" afterPath="$PROJECT_DIR$/target/classes/OtherPapers/UnanimityCompromise.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/Agent$1.class" afterPath="$PROJECT_DIR$/target/classes/tools/Agent$1.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/Agent$2.class" afterPath="$PROJECT_DIR$/target/classes/tools/Agent$2.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/Agent.class" afterPath="$PROJECT_DIR$/target/classes/tools/Agent.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/Path.class" afterPath="$PROJECT_DIR$/target/classes/tools/Path.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/dissagrement.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/options.class" afterPath="$PROJECT_DIR$/target/classes/tools/options.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tools/outcome.class" afterPath="$PROJECT_DIR$/target/classes/tools/outcome.class" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/FullinfoTest.class" afterPath="$PROJECT_DIR$/target/test-classes/FullinfoTest.class" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/UCtest.class" afterPath="$PROJECT_DIR$/target/test-classes/UCtest.class" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,11 +25,10 @@
       <file leaf-file-name="Fullinfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="864" column="66" lean-forward="false" selection-start-line="864" selection-start-column="66" selection-end-line="864" selection-end-column="66" />
+            <state relative-caret-position="413">
+              <caret line="817" column="30" lean-forward="false" selection-start-line="817" selection-start-column="30" selection-end-line="817" selection-end-column="30" />
               <folding>
-                <element signature="e#33026#33034#0" expanded="true" />
-                <marker date="1522917968070" expanded="true" signature="35652:35752" ph="..." />
+                <marker date="1523377056435" expanded="true" signature="37619:37719" ph="..." />
               </folding>
             </state>
           </provider>
@@ -69,34 +37,9 @@
       <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/tools/Agent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9792">
-              <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
-              <folding>
-                <element signature="e#1484#1485#0" expanded="true" />
-                <element signature="e#1542#1543#0" expanded="true" />
-                <element signature="e#1597#1598#0" expanded="true" />
-                <element signature="e#1655#1656#0" expanded="true" />
-                <element signature="e#3650#3651#0" expanded="true" />
-                <element signature="e#3687#3688#0" expanded="true" />
-                <element signature="e#3733#3734#0" expanded="true" />
-                <element signature="e#3780#3781#0" expanded="true" />
-                <element signature="e#3819#3820#0" expanded="true" />
-                <element signature="e#3854#3855#0" expanded="true" />
-                <element signature="e#4414#4415#0" expanded="true" />
-                <element signature="e#4454#4455#0" expanded="true" />
-                <element signature="e#5090#5091#0" expanded="true" />
-                <element signature="e#5116#5117#0" expanded="true" />
-                <element signature="e#5422#5423#0" expanded="true" />
-                <element signature="e#5469#5470#0" expanded="true" />
-                <element signature="e#5505#5506#0" expanded="true" />
-                <element signature="e#5537#5538#0" expanded="true" />
-                <element signature="e#7874#7875#0" expanded="true" />
-                <element signature="e#7905#7906#0" expanded="true" />
-                <element signature="e#8201#8202#0" expanded="true" />
-                <element signature="e#8232#8233#0" expanded="true" />
-                <element signature="e#10337#10338#0" expanded="true" />
-                <element signature="e#10375#10376#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="48">
+              <caret line="346" column="21" lean-forward="false" selection-start-line="346" selection-start-column="21" selection-end-line="346" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -118,8 +61,8 @@
       <file leaf-file-name="FullinfoTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/FullinfoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="330" column="17" lean-forward="false" selection-start-line="330" selection-start-column="17" selection-end-line="330" selection-end-column="17" />
+            <state relative-caret-position="209">
+              <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#WeakCorrelationTest#0;class#FullinfoTest#0" expanded="false" />
@@ -161,6 +104,7 @@
       <find>sub</find>
       <find>subset</find>
       <find>selected</find>
+      <find>Npl</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -207,8 +151,8 @@
         <option value="$PROJECT_DIR$/src/main/java/tools/options.java" />
         <option value="$PROJECT_DIR$/src/main/java/tools/Path.java" />
         <option value="$PROJECT_DIR$/src/main/java/DrawTree/DecisionNode.java" />
-        <option value="$PROJECT_DIR$/src/test/java/FullinfoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/FullinfoTest.java" />
       </list>
     </option>
   </component>
@@ -219,10 +163,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-3855" />
-    <option name="y" value="48" />
-    <option name="width" value="1950" />
-    <option name="height" value="1521" />
+    <option name="x" value="-18" />
+    <option name="y" value="-18" />
+    <option name="width" value="3876" />
+    <option name="height" value="2988" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -702,44 +646,45 @@
       <workItem from="1522580435646" duration="11859000" />
       <workItem from="1522654982574" duration="1284000" />
       <workItem from="1522656370171" duration="261000" />
-      <workItem from="1522853834397" duration="8554000" />
+      <workItem from="1522853834397" duration="20884000" />
+      <workItem from="1523369883332" duration="2073000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 01h 25m 01s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 17h 19m 28s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 01h 26m 59s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 06m 36s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 10h 55m 19s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 08m 35s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 19m 51s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 08m 54s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 26m 17s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 09m 11s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 34m 35s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 09m 24s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 40m 54s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 13m 16s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 43m 04s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 17m 04s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 46m 12s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 17m 08s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.05 at 11h 46m 22s.xml">
+    <history-entry file="FullinfoTest_NplayersRandomTez - 2018.04.10 at 19h 17m 42s.xml">
       <configuration name="FullinfoTest.NplayersRandomTez" configurationId="TestNG" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="391856000" />
+    <option name="totallyTimeSpent" value="406259000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -751,7 +696,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3858" y="30" width="3876" height="2988" extended-state="6" />
+    <frame x="-18" y="-18" width="3876" height="2076" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -761,7 +706,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5017065" sideWeight="0.54375" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282353" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29709035" sideWeight="0.45625" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45647058" sideWeight="0.45625" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33279395" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -769,7 +714,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4345329" sideWeight="0.478125" order="3" side_tool="false" content_ui="tabs" x="22" y="552" width="1244" height="234" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43411765" sideWeight="0.478125" order="3" side_tool="false" content_ui="tabs" x="22" y="552" width="1244" height="234" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -858,7 +803,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java</url>
-          <line>929</line>
+          <line>984</line>
           <properties />
           <option name="timeStamp" value="187" />
         </line-breakpoint>
@@ -870,7 +815,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java</url>
-          <line>919</line>
+          <line>974</line>
           <properties />
           <option name="timeStamp" value="215" />
         </line-breakpoint>
@@ -888,13 +833,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/FullinfoTest.java</url>
-          <line>208</line>
+          <line>209</line>
           <properties />
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/FullinfoTest.java</url>
-          <line>171</line>
+          <line>172</line>
           <properties />
           <option name="timeStamp" value="233" />
         </line-breakpoint>
@@ -912,15 +857,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java</url>
-          <line>975</line>
+          <line>1030</line>
           <properties />
           <option name="timeStamp" value="245" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java</url>
-          <line>800</line>
+          <line>1746</line>
           <properties />
-          <option name="timeStamp" value="246" />
+          <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/tools/AgentTest.java</url>
@@ -931,7 +876,7 @@
           <option name="timeStamp" value="220" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="248" />
+      <option name="time" value="260" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1276,52 +1221,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/tools/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9792">
-          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
-          <folding>
-            <element signature="e#1484#1485#0" expanded="true" />
-            <element signature="e#1542#1543#0" expanded="true" />
-            <element signature="e#1597#1598#0" expanded="true" />
-            <element signature="e#1655#1656#0" expanded="true" />
-            <element signature="e#3650#3651#0" expanded="true" />
-            <element signature="e#3687#3688#0" expanded="true" />
-            <element signature="e#3733#3734#0" expanded="true" />
-            <element signature="e#3780#3781#0" expanded="true" />
-            <element signature="e#3819#3820#0" expanded="true" />
-            <element signature="e#3854#3855#0" expanded="true" />
-            <element signature="e#4414#4415#0" expanded="true" />
-            <element signature="e#4454#4455#0" expanded="true" />
-            <element signature="e#5090#5091#0" expanded="true" />
-            <element signature="e#5116#5117#0" expanded="true" />
-            <element signature="e#5422#5423#0" expanded="true" />
-            <element signature="e#5469#5470#0" expanded="true" />
-            <element signature="e#5505#5506#0" expanded="true" />
-            <element signature="e#5537#5538#0" expanded="true" />
-            <element signature="e#7874#7875#0" expanded="true" />
-            <element signature="e#7905#7906#0" expanded="true" />
-            <element signature="e#8201#8202#0" expanded="true" />
-            <element signature="e#8232#8233#0" expanded="true" />
-            <element signature="e#10337#10338#0" expanded="true" />
-            <element signature="e#10375#10376#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="48">
+          <caret line="346" column="21" lean-forward="false" selection-start-line="346" selection-start-column="21" selection-end-line="346" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Negotiation/Fullinfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="864" column="66" lean-forward="false" selection-start-line="864" selection-start-column="66" selection-end-line="864" selection-end-column="66" />
+        <state relative-caret-position="413">
+          <caret line="817" column="30" lean-forward="false" selection-start-line="817" selection-start-column="30" selection-end-line="817" selection-end-column="30" />
           <folding>
-            <element signature="e#33026#33034#0" expanded="true" />
-            <marker date="1522917968070" expanded="true" signature="35652:35752" ph="..." />
+            <marker date="1523377056435" expanded="true" signature="37619:37719" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/FullinfoTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="330" column="17" lean-forward="false" selection-start-line="330" selection-start-column="17" selection-end-line="330" selection-end-column="17" />
+        <state relative-caret-position="209">
+          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#WeakCorrelationTest#0;class#FullinfoTest#0" expanded="false" />

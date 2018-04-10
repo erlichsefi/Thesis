@@ -810,30 +810,41 @@ public class Fullinfo extends Algo{
             }
             else if (po.size()==1){
                 //offer either
-                ArrayList<String> E=new ArrayList<>(out);
-                E.removeAll(po);
-                o=E.get(0);
+                o=Agent.get(0).CopyWorstOutcome().getName();
             }else{ //po.size==2
                 o=StartingAgent.CopyWorstOutcome().getName();
             }
         }
-        else if (out.size()==3){
-            ArrayList<String> po=Fullinfo.allPartoOptimal(out.toArray(new String[out.size()]),new Agent[]{StartingAgent,Agent.get(1)});
-            if (po.isEmpty()){
-                System.err.println("error! ");
-                return null;
-            }
-            else if (po.size()==1) {
-                //offer either
-                ArrayList<String> E=new ArrayList<>(out);
-                E.removeAll(po);
-                o=E.get(0);
-            }else if (po.size()==2){
+        else if (out.size()>=3){
+           String p1_best=StartingAgent.CopyBestOutcome().getName();
+           String p2_best=Agent.get(0).CopyBestOutcome().getName();
+           String p3_best=Agent.get(1).CopyBestOutcome().getName();
+           if (p1_best.equals(p2_best) && p2_best.equals(p3_best)){
+               o=StartingAgent.CopyWorstOutcome().getName();
+           }
+           else if (p1_best.equals(p3_best)){
+               o=StartingAgent.CopyWorstOutcome().getName();
+           }
+           else if (p1_best.equals(p2_best)){
+               ArrayList<String> outs=new ArrayList<>(out);
+               outs.remove(p1_best);
+               outs.remove(p3_best);
+               o=outs.get(0);
+           }
+           else if (p2_best.equals(p3_best)){
+               o=p1_best;
+           }
+           else{
+               String p2_se=Agent.get(0).copyOutcomeInRange(2,2)[0].getName();
+               String p3_se=Agent.get(1).copyOutcomeInRange(2,2)[0].getName();
 
-                o=lowersAction(out,StartingAgent,Agent.get(0));
-            }else{ //po.size==3
-                o= FindWorstIn(po,Agent.get(0));
-            }
+               if (p2_se.equals(p3_se)){
+                   o=p2_best;
+               }else {
+                   o = p1_best;
+               }
+           }
+
         }
         else{
             System.err.println("not defined yet");
@@ -860,13 +871,57 @@ public class Fullinfo extends Algo{
         outcome[] WAgentWorst=AgentSentOffer.CopyNworst(numberOfPassWaiting);
         ArrayList<outcome> el=IntesectGroup(SAgentWorst,WAgentWorst);
         if (el.isEmpty()){
-            ArrayList<String> out2=new ArrayList<String> (out);
-            for (outcome a:SAgentWorst){out2.remove(a.getName());}
-            for (outcome a:WAgentWorst){out2.remove(a.getName());}
-            return out2.get(0);
+           return null;
         }else{
             return el.get(0).getName();
         }
+
+    }
+
+    public static String uppersAction(ArrayList<String> out,Agent AgentGottenOffer,Agent AgentSentOffer){
+        int numberOfPassStarting;
+        int numberOfPassWaiting;
+        if (out.size()%2==0){
+            numberOfPassStarting=out.size()/2-1;
+            numberOfPassWaiting=out.size()/2;
+        }
+        else{
+            numberOfPassStarting=out.size()/2;
+            numberOfPassWaiting=out.size()/2;
+        }
+
+        //get values from agents and intersect them
+        outcome[] SAgentWorst=AgentGottenOffer.CopyNbest(numberOfPassStarting);
+        outcome[] WAgentWorst=AgentSentOffer.CopyNbest(numberOfPassWaiting);
+        ArrayList<outcome> el=IntesectGroup(SAgentWorst,WAgentWorst);
+        if (el.isEmpty()){
+            return null;
+        }else{
+            return el.get(0).getName();
+        }
+
+    }
+
+    public static String UnioneAction(ArrayList<String> out,Agent AgentGottenOffer,Agent AgentSentOffer){
+        int numberOfPassStarting;
+        int numberOfPassWaiting;
+        if (out.size()%2==0){
+            numberOfPassStarting=out.size()/2-1;
+            numberOfPassWaiting=out.size()/2;
+        }
+        else{
+            numberOfPassStarting=out.size()/2;
+            numberOfPassWaiting=out.size()/2;
+        }
+
+        //get values from agents and intersect them
+        outcome[] SAgentWorst=AgentGottenOffer.CopyNworst(numberOfPassStarting);
+        outcome[] WAgentWorst=AgentSentOffer.CopyNworst(numberOfPassWaiting);
+        ArrayList<outcome> el=IntesectGroup(SAgentWorst,WAgentWorst);
+        ArrayList<String> out2=new ArrayList<>(out);
+        out2.removeAll(new ArrayList<>(Arrays.asList(WAgentWorst)));
+        out2.removeAll(new ArrayList<>(Arrays.asList(SAgentWorst)));
+        return out2.get(0);
 
     }
     public static String FindWorstIn(ArrayList<String> options,Agent by){
